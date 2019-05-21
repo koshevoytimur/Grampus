@@ -10,16 +10,17 @@ import UIKit
 
 class SignUpViewController: UIViewController {
 
-
+    // MARK: - Outlets
     @IBOutlet weak var _userName: UITextField!
     @IBOutlet weak var _email: UITextField!
     @IBOutlet weak var _password: UITextField!
     
-    
+    // MARK: - Functions
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    // MARK: - Actions
     @IBAction func SignUpButton(_ sender: UIButton) {
         //let userName = _userName.text
         //let password = _password.text
@@ -41,7 +42,6 @@ class SignUpViewController: UIViewController {
         
         
     }
-    
     
     func showAlert(_ title: String, _ message: String) {
     
