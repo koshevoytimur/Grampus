@@ -13,10 +13,14 @@ class ProfileViewController: UIViewController {
     // MARK: - Outlets
     @IBOutlet weak var _navigationBar: UINavigationBar!
     @IBOutlet weak var _menuBarButton: UIBarButtonItem!
+    @IBOutlet weak var _tableView: UITableView!
     
     // MARK: - Functions
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        _tableView.delegate = self
+//        _tableView.dataSource = self
         
         navBarAppearance()
         
@@ -34,3 +38,17 @@ class ProfileViewController: UIViewController {
     }
 
 }
+
+//extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return 5
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//
+//    }
+//
+//
+//
+//
+//}
