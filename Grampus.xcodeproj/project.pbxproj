@@ -13,6 +13,7 @@
 		D90CFDA122948747002B8871 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90CFDA022948747002B8871 /* MenuTableViewController.swift */; };
 		D90CFDA3229488B4002B8871 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90CFDA2229488B4002B8871 /* ProfileViewController.swift */; };
 		D90CFDA5229488C5002B8871 /* RatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90CFDA4229488C5002B8871 /* RatingViewController.swift */; };
+		D921AF9D2296BC3E00C714E2 /* ProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D921AF9C2296BC3E00C714E2 /* ProfileTableViewController.swift */; };
 		D93B26F02292BFEF00741E7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93B26EF2292BFEF00741E7F /* AppDelegate.swift */; };
 		D93B26F22292BFEF00741E7F /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93B26F12292BFEF00741E7F /* SignInViewController.swift */; };
 		D93B26F52292BFEF00741E7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D93B26F32292BFEF00741E7F /* Main.storyboard */; };
@@ -31,6 +32,7 @@
 		D90CFDA022948747002B8871 /* MenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		D90CFDA2229488B4002B8871 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		D90CFDA4229488C5002B8871 /* RatingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingViewController.swift; sourceTree = "<group>"; };
+		D921AF9C2296BC3E00C714E2 /* ProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewController.swift; sourceTree = "<group>"; };
 		D93B26EC2292BFEF00741E7F /* Grampus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grampus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D93B26EF2292BFEF00741E7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D93B26F12292BFEF00741E7F /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				D90CFDA2229488B4002B8871 /* ProfileViewController.swift */,
 				D90CFDA4229488C5002B8871 /* RatingViewController.swift */,
 				D960170C229572E80011C9E9 /* RatingTableViewCell.swift */,
+				D921AF9C2296BC3E00C714E2 /* ProfileTableViewController.swift */,
 				D90CFDA022948747002B8871 /* MenuTableViewController.swift */,
 			);
 			path = Controllers;
@@ -233,6 +236,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D921AF9D2296BC3E00C714E2 /* ProfileTableViewController.swift in Sources */,
 				D90CFDA3229488B4002B8871 /* ProfileViewController.swift in Sources */,
 				0436D54B229413B600BE2612 /* SignUpViewController.swift in Sources */,
 				D93B26F22292BFEF00741E7F /* SignInViewController.swift in Sources */,

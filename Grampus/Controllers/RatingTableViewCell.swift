@@ -17,7 +17,7 @@ class RatingTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
         _imageViewCell.layer.cornerRadius = 40
         _imageViewCell.layer.borderWidth = 1.5
         _imageViewCell.layer.borderColor = UIColor.darkGray.cgColor
