@@ -54,9 +54,9 @@ extension RatingViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseCell", for: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseCell", for: indexPath) as! RatingTableViewCell
         
-        
+        cell._nameLabelCell.text = names[indexPath.row]
         
         return cell
     }

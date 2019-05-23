@@ -205,7 +205,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="President" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jE3-J9-jwg">
-                                                    <rect key="frame" x="95" y="55" width="180" height="17"/>
+                                                    <rect key="frame" x="100" y="55" width="180" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="180" id="M7N-DO-r5H"/>
                                                         <constraint firstAttribute="height" constant="17" id="WTh-bF-Hm1"/>
@@ -249,7 +249,7 @@
                                                     </state>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barack Obama" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BMk-0f-Ygl">
-                                                    <rect key="frame" x="95" y="21" width="180" height="20"/>
+                                                    <rect key="frame" x="100" y="21" width="180" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="UAB-CG-Jly"/>
                                                         <constraint firstAttribute="width" constant="180" id="l4n-Mt-oFo"/>
@@ -263,12 +263,12 @@
                                                 <constraint firstItem="jE3-J9-jwg" firstAttribute="top" secondItem="BMk-0f-Ygl" secondAttribute="bottom" constant="14" id="4oh-wK-4A7"/>
                                                 <constraint firstItem="Qxb-m3-18l" firstAttribute="centerY" secondItem="Dpi-Sb-r3Y" secondAttribute="centerY" id="92I-GQ-CUt"/>
                                                 <constraint firstItem="Qxb-m3-18l" firstAttribute="leading" secondItem="Dpi-Sb-r3Y" secondAttribute="leading" constant="10" id="Clw-ef-zxd"/>
-                                                <constraint firstItem="BMk-0f-Ygl" firstAttribute="leading" secondItem="Qxb-m3-18l" secondAttribute="trailing" constant="5" id="D73-vQ-IWY"/>
-                                                <constraint firstItem="jE3-J9-jwg" firstAttribute="leading" secondItem="Qxb-m3-18l" secondAttribute="trailing" constant="5" id="M7d-0e-VRe"/>
                                                 <constraint firstItem="M5i-ny-19n" firstAttribute="top" secondItem="Dpi-Sb-r3Y" secondAttribute="topMargin" constant="5" id="X1Q-QV-vqh"/>
                                                 <constraint firstItem="gtq-Fq-fud" firstAttribute="top" secondItem="Dpi-Sb-r3Y" secondAttribute="topMargin" constant="5" id="cTB-KU-f3L"/>
+                                                <constraint firstItem="BMk-0f-Ygl" firstAttribute="leading" secondItem="Qxb-m3-18l" secondAttribute="trailing" constant="10" id="ciK-Fw-1Nn"/>
                                                 <constraint firstItem="gtq-Fq-fud" firstAttribute="leading" secondItem="M5i-ny-19n" secondAttribute="trailing" constant="5" id="drL-yH-jTO"/>
                                                 <constraint firstItem="BMk-0f-Ygl" firstAttribute="top" secondItem="Dpi-Sb-r3Y" secondAttribute="top" constant="21" id="mb6-R9-NSi"/>
+                                                <constraint firstItem="jE3-J9-jwg" firstAttribute="leading" secondItem="Qxb-m3-18l" secondAttribute="trailing" constant="10" id="usx-sW-5gV"/>
                                                 <constraint firstItem="gtq-Fq-fud" firstAttribute="trailing" secondItem="Dpi-Sb-r3Y" secondAttribute="trailingMargin" constant="5" id="zCv-VF-Lc3"/>
                                             </constraints>
                                         </tableViewCellContentView>
