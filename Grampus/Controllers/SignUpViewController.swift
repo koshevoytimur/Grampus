@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ValidationComponents
 
 class SignUpViewController: UIViewController {
 
@@ -14,6 +15,8 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var _userName: UITextField!
     @IBOutlet weak var _email: UITextField!
     @IBOutlet weak var _password: UITextField!
+    
+    let predicate = EmailValidationPredicate()
     
     // MARK: - Functions
     override func viewDidLoad() {
@@ -24,16 +27,34 @@ class SignUpViewController: UIViewController {
     @IBAction func SignUpButton(_ sender: UIButton) {
         //let userName = _userName.text
         //let password = _password.text
-        //let email    = _email.text
+        let email    = _email.text
         
-        if let password = _password.text {
-            if password.count < 6 {
-                showAlert("Password too short", "Password must have more than 6 symbols")
-            } else if password.count >= 24 {
-                showAlert("Password too long", "Password must have lost then 24 symbols")
+        let emailFormatBool = predicate.evaluate(with: email)
+        
+        // Email isEmpty check.
+        if (email!.isEmpty) {
+            showAlert("Incorrect input", "Enter Email!")
+            
+            return
+        } else {
+            // Email validation.
+            if (!emailFormatBool) {
+                showAlert("Incorrect input", "Email format not correct!")
+                
+                return
             }
         }
         
+        // Check lenght of password
+        if let password = _password.text {
+            if password.count < 6 {
+                showAlert("Password too short", "Password shoud be more than 5 characters!")
+            } else if password.count >= 24 {
+                showAlert("Password too long", "Password shoud be less then 24 symbols")
+            }
+        }
+        
+        // Check lenght of user name
         if let userName = _userName.text {
             if userName.count < 2 {
                 showAlert("Name too short", "Write your correct name")
