@@ -11,12 +11,21 @@ import UIKit
 class ProfileTableViewController: UITableViewController {
 
     @IBOutlet weak var _menuBarButton: UIBarButtonItem!
-    
     @IBOutlet weak var _navigationBar: UINavigationBar!
+    
+    //Overview cell
+    @IBOutlet weak var _profileImageView: UIImageView!
+    @IBOutlet weak var _profileFullNameLabel: UILabel!
+    @IBOutlet weak var _profileProfessionLabel: UILabel!
+    @IBOutlet weak var _profileLikeLabel: UILabel!
+    @IBOutlet weak var _profileDislikeLabel: UILabel!
+    
+    //Achievement cell
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navBarAppearance()
         
         self.tableView.tableFooterView = UIView(frame: .zero)
 
@@ -30,8 +39,9 @@ class ProfileTableViewController: UITableViewController {
     }
     
     func navBarAppearance() {
-//        _navigationBar.barTintColor = UIColor.darkText
-//        _navigationBar.tintColor = UIColor.white
+        _profileImageView.layer.cornerRadius = 50
+        _profileImageView.layer.borderWidth = 1.5
+        _profileImageView.layer.borderColor = UIColor.darkGray.cgColor
     }
 
     // MARK: - Table view data source
@@ -43,7 +53,7 @@ class ProfileTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 3
+        return 5
     }
 
     /*

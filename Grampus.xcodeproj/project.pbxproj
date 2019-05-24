@@ -103,6 +103,7 @@
 				D90CFD9E22948204002B8871 /* SWRevealViewController.h */,
 				D90CFD9D22948204002B8871 /* SWRevealViewController.m */,
 				D90CFD9C22948203002B8871 /* Grampus-Bridging-Header.h */,
+				D90CFDA2229488B4002B8871 /* ProfileViewController.swift */,
 			);
 			path = Grampus;
 			sourceTree = "<group>";
@@ -112,10 +113,9 @@
 			children = (
 				D93B26F12292BFEF00741E7F /* SignInViewController.swift */,
 				0436D54A229413B600BE2612 /* SignUpViewController.swift */,
-				D90CFDA2229488B4002B8871 /* ProfileViewController.swift */,
+				D921AF9C2296BC3E00C714E2 /* ProfileTableViewController.swift */,
 				D90CFDA4229488C5002B8871 /* RatingViewController.swift */,
 				D960170C229572E80011C9E9 /* RatingTableViewCell.swift */,
-				D921AF9C2296BC3E00C714E2 /* ProfileTableViewController.swift */,
 				D90CFDA022948747002B8871 /* MenuTableViewController.swift */,
 			);
 			path = Controllers;

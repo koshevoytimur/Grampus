@@ -158,7 +158,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseCell" rowHeight="90" id="pNn-Yg-PcK" customClass="RatingTableViewCell" customModule="Grampus" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ratingCell" rowHeight="90" id="pNn-Yg-PcK" customClass="RatingTableViewCell" customModule="Grampus" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pNn-Yg-PcK" id="Dpi-Sb-r3Y">
@@ -664,7 +664,7 @@
         <scene sceneID="zic-7W-8Is">
             <objects>
                 <tableViewController automaticallyAdjustsScrollViewInsets="NO" id="drC-Kd-Fe9" customClass="ProfileTableViewController" customModule="Grampus" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="536-US-Cg9">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="536-US-Cg9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -677,7 +677,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </textAttributes>
                             <items>
-                                <navigationItem title="Title" id="OgD-4C-byh">
+                                <navigationItem title="Profile" id="OgD-4C-byh">
                                     <barButtonItem key="leftBarButtonItem" title="Item" image="menu" id="aHJ-LZ-UJG"/>
                                 </navigationItem>
                             </items>
@@ -706,7 +706,7 @@
                                                         <constraint firstAttribute="height" constant="22" id="Hw6-hR-1Wv"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="President" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceC-XE-QGh">
@@ -760,6 +760,19 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="eTL-4e-gc8" id="0Hd-gM-RXz">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="119.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Information:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PmH-UU-fP7">
+                                                    <rect key="frame" x="10" y="10" width="394" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="PmH-UU-fP7" firstAttribute="leading" secondItem="0Hd-gM-RXz" secondAttribute="leading" constant="10" id="872-oB-KAo"/>
+                                                <constraint firstItem="PmH-UU-fP7" firstAttribute="top" secondItem="0Hd-gM-RXz" secondAttribute="top" constant="10" id="aiH-HL-lyL"/>
+                                                <constraint firstAttribute="trailing" secondItem="PmH-UU-fP7" secondAttribute="trailing" constant="10" id="bqi-hK-jKO"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="120" id="EaJ-8y-c5a">
@@ -789,11 +802,16 @@
                     <connections>
                         <outlet property="_menuBarButton" destination="aHJ-LZ-UJG" id="caJ-Ci-qL6"/>
                         <outlet property="_navigationBar" destination="nBN-Kp-e9E" id="qIU-Rh-7Wl"/>
+                        <outlet property="_profileDislikeLabel" destination="hXi-Gx-18f" id="24u-mx-MQb"/>
+                        <outlet property="_profileFullNameLabel" destination="FwV-OR-wYQ" id="ZyZ-SU-Fly"/>
+                        <outlet property="_profileImageView" destination="Zus-zE-zIk" id="gcs-Im-8Ka"/>
+                        <outlet property="_profileLikeLabel" destination="cKb-Pg-uHl" id="JaP-3M-Zhz"/>
+                        <outlet property="_profileProfessionLabel" destination="ceC-XE-QGh" id="p5k-w2-Myy"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xG3-r1-1i7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2529" y="120"/>
+            <point key="canvasLocation" x="2528.985507246377" y="119.86607142857142"/>
         </scene>
     </scenes>
     <resources>
