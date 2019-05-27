@@ -783,20 +783,21 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="120" id="qAO-Qf-D7k">
-                                        <rect key="frame" x="0.0" y="524" width="414" height="120"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="400" id="qAO-Qf-D7k" customClass="TableViewCellForPieChart" customModule="Grampus" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="524" width="414" height="400"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qAO-Qf-D7k" id="qgv-Sp-Bi6">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="119.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="399.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m6T-zu-l5e" customClass="PieChartView" customModule="Grampus" customModuleProvider="target">
-                                                    <rect key="frame" x="20" y="0.0" width="374" height="128"/>
+                                                    <rect key="frame" x="20" y="0.0" width="374" height="408"/>
                                                     <connections>
                                                         <segue destination="2oD-VD-Ev7" kind="embed" id="Od3-bw-z28"/>
                                                     </connections>
                                                 </containerView>
                                             </subviews>
+                                            <color key="backgroundColor" red="0.98635376610000003" green="1" blue="0.87567739330000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="m6T-zu-l5e" secondAttribute="bottom" constant="-8.5" id="0zh-xR-cc7"/>
                                                 <constraint firstItem="m6T-zu-l5e" firstAttribute="top" secondItem="qgv-Sp-Bi6" secondAttribute="top" id="75c-tY-d83"/>
@@ -832,13 +833,15 @@
             <objects>
                 <viewController id="2oD-VD-Ev7" customClass="PieChartViewController" customModule="Grampus" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Fcd-fL-1ea">
-                        <rect key="frame" x="0.0" y="0.0" width="374" height="128"/>
+                        <rect key="frame" x="0.0" y="0.0" width="374" height="408"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="DD5-GM-yWZ"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gHy-Vz-JVn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="3251" y="244"/>
         </scene>
     </scenes>
     <resources>
