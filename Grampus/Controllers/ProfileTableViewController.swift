@@ -22,17 +22,17 @@ class ProfileTableViewController: UITableViewController {
     
     //Achievement cell
     
-    //Information cell
+//    Information cell
     @IBOutlet weak var _profileInformationLabel: UILabel!
-    //Skills cell
+//    Skills cell
     @IBOutlet weak var _profileSkillsLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navBarAppearance()
-        _profileInformationLabel.numberOfLines = 0
-        _profileSkillsLabel.numberOfLines = 0
+//        _profileInformationLabel.numberOfLines = 0
+//        _profileSkillsLabel.numberOfLines = 0
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 120
         
@@ -57,6 +57,8 @@ class ProfileTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 2 || indexPath.row == 3 {
             return UITableView.automaticDimension
+        } else if indexPath.row == 4{
+            return 300.0
         } else {
             return 120.0
         }
@@ -69,6 +71,7 @@ class ProfileTableViewController: UITableViewController {
             return 120.0
         }
     }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -80,7 +83,7 @@ class ProfileTableViewController: UITableViewController {
     // MARK: - Actions
     @IBAction func informationAddAction(_ sender: Any) {
         let alert = UIAlertController(title: "Enter information about yourself:", message: nil, preferredStyle: .alert)
-        
+
         alert.addTextField { (textField) in
             textField.text = self._profileInformationLabel.text
         }
@@ -88,9 +91,9 @@ class ProfileTableViewController: UITableViewController {
             let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
             self._profileInformationLabel.text = textField?.text
             self.tableView.reloadData()
-            
+
         }))
-        
+
         // 4. Present the alert.
         self.present(alert, animated: true, completion: nil)
         self.tableView.reloadData()

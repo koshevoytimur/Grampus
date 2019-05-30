@@ -8,10 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0436D54B229413B600BE2612 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0436D54A229413B600BE2612 /* SignUpViewController.swift */; };
-		0436D5DA2297E27900BE2612 /* PieChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0436D5D62297E27900BE2612 /* PieChartViewController.swift */; };
-		0436D5DB2297E27900BE2612 /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0436D5D72297E27900BE2612 /* PieChartView.swift */; };
-		0436D5DC2297E27900BE2612 /* CompatibilityShims.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0436D5D82297E27900BE2612 /* CompatibilityShims.swift */; };
-		0436D5DD2297E27900BE2612 /* SimplePieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0436D5D92297E27900BE2612 /* SimplePieChartView.swift */; };
 		04DE7C21229BCE6B00BB8B88 /* TableViewCellForPieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE7C20229BCE6B00BB8B88 /* TableViewCellForPieChart.swift */; };
 		410DF94970F197AFAE034B4E /* Pods_Grampus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E4997C24BD925AC8EFA391D /* Pods_Grampus.framework */; };
 		D90CFD9F22948204002B8871 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D90CFD9D22948204002B8871 /* SWRevealViewController.m */; };
@@ -25,14 +21,16 @@
 		D93B26F72292BFF000741E7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D93B26F62292BFF000741E7F /* Assets.xcassets */; };
 		D93B26FA2292BFF000741E7F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D93B26F82292BFF000741E7F /* LaunchScreen.storyboard */; };
 		D960170D229572E80011C9E9 /* RatingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D960170C229572E80011C9E9 /* RatingTableViewCell.swift */; };
+		D9E73662229FD7F000D56849 /* SimplePieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E7365E229FD7EF00D56849 /* SimplePieChartView.swift */; };
+		D9E73663229FD7F000D56849 /* CompatibilityShims.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E7365F229FD7EF00D56849 /* CompatibilityShims.swift */; };
+		D9E73664229FD7F000D56849 /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E73660229FD7EF00D56849 /* PieChartView.swift */; };
+		D9E73665229FD7F000D56849 /* PieChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E73661229FD7EF00D56849 /* PieChartViewController.swift */; };
+		D9E73667229FE9D600D56849 /* Methods.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E73666229FE9D600D56849 /* Methods.swift */; };
+		D9E73669229FEA4900D56849 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E73668229FEA4900D56849 /* AlertView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0436D54A229413B600BE2612 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
-		0436D5D62297E27900BE2612 /* PieChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PieChartViewController.swift; path = ../../../PieChartView/PieChartViewController.swift; sourceTree = "<group>"; };
-		0436D5D72297E27900BE2612 /* PieChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PieChartView.swift; path = ../../../PieChartView/PieChartView.swift; sourceTree = "<group>"; };
-		0436D5D82297E27900BE2612 /* CompatibilityShims.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CompatibilityShims.swift; path = ../../../PieChartView/CompatibilityShims.swift; sourceTree = "<group>"; };
-		0436D5D92297E27900BE2612 /* SimplePieChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimplePieChartView.swift; path = ../../../PieChartView/SimplePieChartView.swift; sourceTree = "<group>"; };
 		04DE7C20229BCE6B00BB8B88 /* TableViewCellForPieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellForPieChart.swift; sourceTree = "<group>"; };
 		4E4997C24BD925AC8EFA391D /* Pods_Grampus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Grampus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0300824BAF5CC14DEF384AC /* Pods-Grampus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Grampus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Grampus/Pods-Grampus.debug.xcconfig"; sourceTree = "<group>"; };
@@ -51,6 +49,12 @@
 		D93B26F92292BFF000741E7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D93B26FB2292BFF000741E7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D960170C229572E80011C9E9 /* RatingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingTableViewCell.swift; sourceTree = "<group>"; };
+		D9E7365E229FD7EF00D56849 /* SimplePieChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplePieChartView.swift; sourceTree = "<group>"; };
+		D9E7365F229FD7EF00D56849 /* CompatibilityShims.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompatibilityShims.swift; sourceTree = "<group>"; };
+		D9E73660229FD7EF00D56849 /* PieChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
+		D9E73661229FD7EF00D56849 /* PieChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartViewController.swift; sourceTree = "<group>"; };
+		D9E73666229FE9D600D56849 /* Methods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Methods.swift; sourceTree = "<group>"; };
+		D9E73668229FEA4900D56849 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		E2094CC2A80A1DC04FBFB3D9 /* Pods-Grampus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Grampus.release.xcconfig"; path = "Pods/Target Support Files/Pods-Grampus/Pods-Grampus.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,11 +110,11 @@
 			children = (
 				D965BC9B22949ACF001B71C3 /* Controllers */,
 				D93B26EF2292BFEF00741E7F /* AppDelegate.swift */,
-				0436D5D82297E27900BE2612 /* CompatibilityShims.swift */,
-				0436D5D72297E27900BE2612 /* PieChartView.swift */,
-				0436D5D62297E27900BE2612 /* PieChartViewController.swift */,
-				0436D5D92297E27900BE2612 /* SimplePieChartView.swift */,
 				04DE7C20229BCE6B00BB8B88 /* TableViewCellForPieChart.swift */,
+				D9E7365F229FD7EF00D56849 /* CompatibilityShims.swift */,
+				D9E73660229FD7EF00D56849 /* PieChartView.swift */,
+				D9E73661229FD7EF00D56849 /* PieChartViewController.swift */,
+				D9E7365E229FD7EF00D56849 /* SimplePieChartView.swift */,
 				D93B26F32292BFEF00741E7F /* Main.storyboard */,
 				D93B26F62292BFF000741E7F /* Assets.xcassets */,
 				D93B26F82292BFF000741E7F /* LaunchScreen.storyboard */,
@@ -119,6 +123,8 @@
 				D90CFD9D22948204002B8871 /* SWRevealViewController.m */,
 				D90CFD9C22948203002B8871 /* Grampus-Bridging-Header.h */,
 				D90CFDA2229488B4002B8871 /* ProfileViewController.swift */,
+				D9E73666229FE9D600D56849 /* Methods.swift */,
+				D9E73668229FEA4900D56849 /* AlertView.swift */,
 			);
 			path = Grampus;
 			sourceTree = "<group>";
@@ -253,17 +259,19 @@
 			files = (
 				D921AF9D2296BC3E00C714E2 /* ProfileTableViewController.swift in Sources */,
 				D90CFDA3229488B4002B8871 /* ProfileViewController.swift in Sources */,
+				D9E73664229FD7F000D56849 /* PieChartView.swift in Sources */,
 				0436D54B229413B600BE2612 /* SignUpViewController.swift in Sources */,
 				04DE7C21229BCE6B00BB8B88 /* TableViewCellForPieChart.swift in Sources */,
 				D93B26F22292BFEF00741E7F /* SignInViewController.swift in Sources */,
-				0436D5DB2297E27900BE2612 /* PieChartView.swift in Sources */,
-				0436D5DC2297E27900BE2612 /* CompatibilityShims.swift in Sources */,
-				0436D5DD2297E27900BE2612 /* SimplePieChartView.swift in Sources */,
+				D9E73663229FD7F000D56849 /* CompatibilityShims.swift in Sources */,
 				D90CFDA122948747002B8871 /* MenuTableViewController.swift in Sources */,
 				D960170D229572E80011C9E9 /* RatingTableViewCell.swift in Sources */,
-				0436D5DA2297E27900BE2612 /* PieChartViewController.swift in Sources */,
 				D93B26F02292BFEF00741E7F /* AppDelegate.swift in Sources */,
+				D9E73662229FD7F000D56849 /* SimplePieChartView.swift in Sources */,
 				D90CFD9F22948204002B8871 /* SWRevealViewController.m in Sources */,
+				D9E73665229FD7F000D56849 /* PieChartViewController.swift in Sources */,
+				D9E73669229FEA4900D56849 /* AlertView.swift in Sources */,
+				D9E73667229FE9D600D56849 /* Methods.swift in Sources */,
 				D90CFDA5229488C5002B8871 /* RatingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

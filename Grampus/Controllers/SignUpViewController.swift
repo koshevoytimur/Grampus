@@ -18,7 +18,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var _signUpButton: UIButton!
     
     let predicate = EmailValidationPredicate()
-    
+    let alert = AlertView()
+    let API_URL: String = "http://10.11.1.83:8080/api/users/register"
     // MARK: - Functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +41,47 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         super.viewWillDisappear(animated)
         removeNotifications()
     }
+    
+    func fetch(url: String, method: Methods, data: [String: Any] = ["0": "0"], callback: @escaping (_ data: Any) -> ()) {
+        guard let url = URL(string: url) else { return }
+        
+        var request = URLRequest(url: url)
+        
+        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")
+        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        
+        request.httpMethod = method.rawValue
+        
+        print(method.rawValue)
+        
+        if (method != .get) {
+            let jsonData = try! JSONSerialization.data(withJSONObject: data, options: [])
+            request.httpBody = jsonData
+        }
+        
+        let session = URLSession.shared
+        
+        session.dataTask(with: request) { (data, response, error) in
+            if let response = response as? HTTPURLResponse {
+                self.alert.showAlert(view: self, title: "Status Code", message: "\(response.statusCode)")
+            }
+            
+            guard let data = data else { return }
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: [])
+                callback(json)
+            } catch {
+                print(error)
+            }
+            
+            }.resume()
+    }
+    
+    let jsonEx: [String : Any] = [
+        "username": "aaaa1@email.com",
+        "password": "password",
+        "fullName": "aaa"
+    ]
     
     func SetUpOutlets() {
         
@@ -99,41 +141,46 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Actions
     @IBAction func SignUpButton(_ sender: UIButton) {
-        //let userName = _userName.text
-        //let password = _password.text
-        let email    = _email.text
         
-        let emailFormatBool = predicate.evaluate(with: email)
+        fetch(url: (API_URL) , method: .post, data: jsonEx, callback: {(data: Any) -> Void in
+            print(data)
+        })
         
-        // Check lenght of user name
-        if let userName = _userName.text {
-            if userName.count < 2 {
-                showAlert("Name too short", "Write your correct name")
-            }
-        }
-        
-        // Email isEmpty check.
-        if (email!.isEmpty) {
-            showAlert("Incorrect input", "Enter Email!")
-            
-            return
-        } else {
-            // Email validation.
-            if (!emailFormatBool) {
-                showAlert("Incorrect input", "Email format not correct!")
-                
-                return
-            }
-        }
-        
-        // Check lenght of password
-        if let password = _password.text {
-            if password.count < 6 {
-                showAlert("Password too short", "Password shoud be more than 5 characters!")
-            } else if password.count >= 24 {
-                showAlert("Password too long", "Password shoud be less then 24 symbols")
-            }
-        }
+//        //let userName = _userName.text
+//        //let password = _password.text
+//        let email    = _email.text
+//
+//        let emailFormatBool = predicate.evaluate(with: email)
+//
+//        // Check lenght of user name
+//        if let userName = _userName.text {
+//            if userName.count < 2 {
+//                showAlert("Name too short", "Write your correct name")
+//            }
+//        }
+//
+//        // Email isEmpty check.
+//        if (email!.isEmpty) {
+//            showAlert("Incorrect input", "Enter Email!")
+//
+//            return
+//        } else {
+//            // Email validation.
+//            if (!emailFormatBool) {
+//                showAlert("Incorrect input", "Email format not correct!")
+//
+//                return
+//            }
+//        }
+//
+//        // Check lenght of password
+//        if let password = _password.text {
+//            if password.count < 6 {
+//                showAlert("Password too short", "Password shoud be more than 5 characters!")
+//            } else if password.count >= 24 {
+//                showAlert("Password too long", "Password shoud be less then 24 symbols")
+//            }
+//        }
     }
     
     func showAlert(_ title: String, _ message: String) {
