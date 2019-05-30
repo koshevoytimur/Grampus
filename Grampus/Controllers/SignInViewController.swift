@@ -7,6 +7,15 @@
 //
 
 import UIKit
+import JWTDecode
+
+
+struct TokenData: Codable {
+    
+    let success: Int?
+    let token: String?
+
+}
 
 class SignInViewController: UIViewController, UITextFieldDelegate {
     
@@ -16,6 +25,11 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var _signInButton: UIButton!
     @IBOutlet weak var _signUpButton: UIButton!
+    
+    let API_URL: String = "http://10.11.1.83:8080/api/users/login"
+    let alert = AlertView()
+    
+    var tokenData: TokenData?
     
     // MARK: - Functions
     override func viewDidLoad() {
@@ -37,9 +51,9 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         super.viewWillDisappear(animated)
         removeNotifications()
     }
-
-    func SetUpOutlets() {
     
+    func SetUpOutlets() {
+        
         _userName.layer.shadowColor = UIColor.darkGray.cgColor
         _userName.layer.shadowOffset = CGSize(width: 3, height: 3)
         _userName.layer.shadowRadius = 5
@@ -62,7 +76,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         
         _signInButton.layer.cornerRadius = 5
         _signUpButton.layer.cornerRadius = 5
-    
+        
     }
     
     // Hide keyboard on tap.
@@ -112,17 +126,65 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Actions
     @IBAction func SignInButton(_ sender: UIButton) {
-//        let userName = _userName.text
-//        let password = _password.text
-//        
-//        if (userName == "" || password == "") {
-//            return
-//        }
-//        
-//        if (userName == "test@test.com" && password == "test") {
-//            
-//        }
+        
+        fetch(url: (API_URL) , method: .post, data: jsonEx, callback: {(data: Any) -> Void in
+            print("DATA: ---------------- \(data)")
+
+            let jsonStr = data
+            do {
+                let weather = try JSONDecoder().decode(TokenData.self, from: ((jsonStr as Any) as AnyObject).data(using: .utf8)!)
+                print(weather)
+            }
+            catch {
+                print(error)
+            }
+//            print("TOKEN DATA: ------------\(self.tokenData?.token)")
+        })
+        
+//        let jwt = try decode(jwt: token)
+        
     }
+    
+    func fetch(url: String, method: Methods, data: [String: Any] = ["0": "0"], callback: @escaping (_ data: Any) -> ()) {
+        guard let url = URL(string: url) else { return }
+        
+        var request = URLRequest(url: url)
+        
+        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")
+        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        
+        request.httpMethod = method.rawValue
+        
+        print(method.rawValue)
+        
+        if (method != .get) {
+            let jsonData = try! JSONSerialization.data(withJSONObject: data, options: [])
+            request.httpBody = jsonData
+        }
+        
+        let session = URLSession.shared
+        
+        session.dataTask(with: request) { (data, response, error) in
+            if let response = response as? HTTPURLResponse {
+                self.alert.showAlert(view: self, title: "Status Code", message: "\(response.statusCode)")
+            }
+            
+            guard let data = data else { return }
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: [])
+                callback(json)
+            } catch {
+                print(error)
+            }
+            
+            }.resume()
+    }
+    
+    let jsonEx: [String : Any] = [
+        "username": "aaaa14@email.com",
+        "password": "password"
+//        "fullName": "aaa"
+    ]
     
 }
 

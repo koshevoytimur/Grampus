@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D84866D5ACD114F6007BF0AD43711FED"
-               BlueprintName = "ValidationToolkit"
+               BlueprintIdentifier = "FA51A5962422D62AF0C3E8C8C18F1767"
+               BlueprintName = "JWTDecode"
                ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "ValidationToolkit.framework">
+               BuildableName = "JWTDecode.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

@@ -78,7 +78,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     }
     
     let jsonEx: [String : Any] = [
-        "username": "aaaa1@email.com",
+        "username": "aaaa14@email.com",
         "password": "password",
         "fullName": "aaa"
     ]

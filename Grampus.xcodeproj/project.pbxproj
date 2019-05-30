@@ -219,11 +219,13 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Grampus/Pods-Grampus-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/JWTDecode/JWTDecode.framework",
 				"${BUILT_PRODUCTS_DIR}/ValidationComponents/ValidationComponents.framework",
 				"${BUILT_PRODUCTS_DIR}/ValidationToolkit/ValidationToolkit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWTDecode.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ValidationComponents.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ValidationToolkit.framework",
 			);
@@ -423,10 +425,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H9FL6Z93F8;
 				INFOPLIST_FILE = Grampus/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.timur.Grampus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Grampus/Grampus-Bridging-Header.h";
@@ -445,10 +444,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H9FL6Z93F8;
 				INFOPLIST_FILE = Grampus/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.timur.Grampus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Grampus/Grampus-Bridging-Header.h";

@@ -6,6 +6,7 @@ target 'Grampus' do
   use_frameworks!
   
   pod 'ValidationComponents'
+  pod 'JWTDecode', '~> 2.3'
   # Pods for Grampus
 
 end
