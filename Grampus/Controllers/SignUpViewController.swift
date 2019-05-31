@@ -19,7 +19,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     let predicate = EmailValidationPredicate()
     let alert = AlertView()
-    let API_URL: String = "http://10.11.1.83:8080/api/users/register"
+    let API_URL: String = "http://10.11.1.169:8080/api/users/register"
     // MARK: - Functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,7 +78,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     }
     
     let jsonEx: [String : Any] = [
-        "username": "aaaa14@email.com",
+        "username": "aaaa111@email.com",
         "password": "password",
         "fullName": "aaa"
     ]

@@ -64,6 +64,7 @@
                                         </state>
                                         <connections>
                                             <action selector="SignInButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uFr-TE-x1t"/>
+                                            <segue destination="6Nn-7C-WBp" kind="show" id="1jR-j7-xBx"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7xO-27-Fg9">

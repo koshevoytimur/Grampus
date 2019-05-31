@@ -12,7 +12,7 @@ import JWTDecode
 
 struct TokenData: Codable {
     
-    let success: Int?
+    let success: Bool?
     let token: String?
 
 }
@@ -26,7 +26,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var _signInButton: UIButton!
     @IBOutlet weak var _signUpButton: UIButton!
     
-    let API_URL: String = "http://10.11.1.83:8080/api/users/login"
+    let API_URL: String = "http://10.11.1.169:8080/api/users/login"
     let alert = AlertView()
     
     var tokenData: TokenData?
@@ -129,19 +129,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         
         fetch(url: (API_URL) , method: .post, data: jsonEx, callback: {(data: Any) -> Void in
             print("DATA: ---------------- \(data)")
-
-            let jsonStr = data
-            do {
-                let weather = try JSONDecoder().decode(TokenData.self, from: ((jsonStr as Any) as AnyObject).data(using: .utf8)!)
-                print(weather)
-            }
-            catch {
-                print(error)
-            }
-//            print("TOKEN DATA: ------------\(self.tokenData?.token)")
+            
         })
-        
-//        let jwt = try decode(jwt: token)
         
     }
     
@@ -172,6 +161,16 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             guard let data = data else { return }
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: [])
+                
+                self.tokenData = try? JSONDecoder().decode(TokenData.self, from: data )
+                print("TOKEN: ---------------- \(self.tokenData?.token)")
+                
+                let tokenWBearer = self.tokenData?.token
+                let wordToRemove = "Bearer "
+                let tokenWithOutBearer = tokenWBearer!.deletingPrefix(wordToRemove)
+                let jwt = try decode(jwt: tokenWithOutBearer)
+                print("Decoded jwt ----------------\(jwt)")
+                
                 callback(json)
             } catch {
                 print(error)
@@ -180,11 +179,19 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             }.resume()
     }
     
+    
+    
     let jsonEx: [String : Any] = [
-        "username": "aaaa14@email.com",
+        "username": "aaaa111@email.com",
         "password": "password"
 //        "fullName": "aaa"
     ]
     
 }
 
+extension String {
+    func deletingPrefix(_ prefix: String) -> String {
+        guard self.hasPrefix(prefix) else { return self }
+        return String(self.dropFirst(prefix.count))
+    }
+}
