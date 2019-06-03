@@ -8,6 +8,7 @@
 
 import UIKit
 import ValidationComponents
+import Alamofire
 
 class SignUpViewController: UIViewController, UITextFieldDelegate {
     
@@ -20,6 +21,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     let predicate = EmailValidationPredicate()
     let alert = AlertView()
     let API_URL: String = "http://10.11.1.169:8080/api/users/register"
+    
     // MARK: - Functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,46 +44,84 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         removeNotifications()
     }
     
-    func fetch(url: String, method: Methods, data: [String: Any] = ["0": "0"], callback: @escaping (_ data: Any) -> ()) {
-        guard let url = URL(string: url) else { return }
+//    func fetch(url: String, method: Methods, data: [String: Any] = ["0": "0"], callback: @escaping (_ data: Any) -> ()) {
+//        guard let url = URL(string: url) else { return }
+//
+//        var request = URLRequest(url: url)
+//
+//        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")
+//        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+//
+//        request.httpMethod = method.rawValue
+//
+//        print(method.rawValue)
+//
+//        if (method != .get) {
+//            let jsonData = try! JSONSerialization.data(withJSONObject: data, options: [])
+//            request.httpBody = jsonData
+//        }
+//
+//        let session = URLSession.shared
+//
+//        session.dataTask(with: request) { (data, response, error) in
+//            if let response = response as? HTTPURLResponse {
+//                if response.statusCode == 200 {
+//                    print("Status CODE: \(response.statusCode)")
+//                } else {
+//                    self.alert.showAlert(view: self, title: "Status Code", message: "\(response.statusCode)")
+//                    return
+//                }
+//                //                self.alert.showAlert(view: self, title: "Status Code", message: "\(response.statusCode)")
+//            }
+//
+//            guard let data = data else { return }
+//            do {
+//                let json = try JSONSerialization.jsonObject(with: data, options: [])
+//                callback(json)
+//            } catch {
+//                print(error)
+//            }
+//
+//            }.resume()
+//    }
+//
+//    let jsonEx: [String : Any] = [
+//        "username": "aaaa124@email.com",
+//        "password": "password",
+//        "fullName": "aaa"
+//    ]
+    
+    func signUp() {
         
-        var request = URLRequest(url: url)
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json; charset=utf-8"
+        ]
         
-        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")
-        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        let body: [String : Any] = [
+            "username": String(describing: _email.text!),
+            "password": String(describing: _password.text!),
+            "fullName": String(describing: _userName.text!)
+        ]
         
-        request.httpMethod = method.rawValue
+//        let body: [String : Any] = [
+//            "username": "aaaa127@email.com",
+//            "password": "password",
+//            "fullName": "aaa"
+//        ]
         
-        print(method.rawValue)
-        
-        if (method != .get) {
-            let jsonData = try! JSONSerialization.data(withJSONObject: data, options: [])
-            request.httpBody = jsonData
-        }
-        
-        let session = URLSession.shared
-        
-        session.dataTask(with: request) { (data, response, error) in
-            if let response = response as? HTTPURLResponse {
-                self.alert.showAlert(view: self, title: "Status Code", message: "\(response.statusCode)")
-            }
+        Alamofire.request(API_URL, method: .post, parameters: body, encoding: JSONEncoding.default, headers: headers).validate().responseJSON { responseJSON in
             
-            guard let data = data else { return }
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: [])
-                callback(json)
-            } catch {
+            switch responseJSON.result {
+            case .success :
+                print(responseJSON.data)
+                print(responseJSON.result)
+                print(responseJSON.value)
+                
+            case .failure(let error) :
                 print(error)
             }
-            
-            }.resume()
+        }
     }
-    
-    let jsonEx: [String : Any] = [
-        "username": "aaaa111@email.com",
-        "password": "password",
-        "fullName": "aaa"
-    ]
     
     func SetUpOutlets() {
         
@@ -142,45 +182,49 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Actions
     @IBAction func SignUpButton(_ sender: UIButton) {
         
-        fetch(url: (API_URL) , method: .post, data: jsonEx, callback: {(data: Any) -> Void in
-            print(data)
-        })
+        signUp()
         
-//        //let userName = _userName.text
-//        //let password = _password.text
-//        let email    = _email.text
-//
-//        let emailFormatBool = predicate.evaluate(with: email)
-//
-//        // Check lenght of user name
-//        if let userName = _userName.text {
-//            if userName.count < 2 {
-//                showAlert("Name too short", "Write your correct name")
-//            }
-//        }
-//
-//        // Email isEmpty check.
-//        if (email!.isEmpty) {
-//            showAlert("Incorrect input", "Enter Email!")
-//
-//            return
-//        } else {
-//            // Email validation.
-//            if (!emailFormatBool) {
-//                showAlert("Incorrect input", "Email format not correct!")
-//
-//                return
-//            }
-//        }
-//
-//        // Check lenght of password
-//        if let password = _password.text {
-//            if password.count < 6 {
-//                showAlert("Password too short", "Password shoud be more than 5 characters!")
-//            } else if password.count >= 24 {
-//                showAlert("Password too long", "Password shoud be less then 24 symbols")
-//            }
-//        }
+        //        fetch(url: (API_URL) , method: .post, data: jsonEx, callback: {(data: Any) -> Void in
+        //            print(data)
+        //            self.performSegue(withIdentifier: "sing_up_to_login", sender: self)
+        //
+        //        })
+        
+        //        //let userName = _userName.text
+        //        //let password = _password.text
+        //        let email    = _email.text
+        //
+        //        let emailFormatBool = predicate.evaluate(with: email)
+        //
+        //        // Check lenght of user name
+        //        if let userName = _userName.text {
+        //            if userName.count < 2 {
+        //                showAlert("Name too short", "Write your correct name")
+        //            }
+        //        }
+        //
+        //        // Email isEmpty check.
+        //        if (email!.isEmpty) {
+        //            showAlert("Incorrect input", "Enter Email!")
+        //
+        //            return
+        //        } else {
+        //            // Email validation.
+        //            if (!emailFormatBool) {
+        //                showAlert("Incorrect input", "Email format not correct!")
+        //
+        //                return
+        //            }
+        //        }
+        //
+        //        // Check lenght of password
+        //        if let password = _password.text {
+        //            if password.count < 6 {
+        //                showAlert("Password too short", "Password shoud be more than 5 characters!")
+        //            } else if password.count >= 24 {
+        //                showAlert("Password too long", "Password shoud be less then 24 symbols")
+        //            }
+        //        }
     }
     
     func showAlert(_ title: String, _ message: String) {

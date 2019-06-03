@@ -64,7 +64,6 @@
                                         </state>
                                         <connections>
                                             <action selector="SignInButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uFr-TE-x1t"/>
-                                            <segue destination="6Nn-7C-WBp" kind="show" id="1jR-j7-xBx"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7xO-27-Fg9">
@@ -102,6 +101,7 @@
                         <outlet property="_signInButton" destination="Ncs-uv-bEO" id="gkM-Lj-oaT"/>
                         <outlet property="_signUpButton" destination="7xO-27-Fg9" id="E18-gE-vqy"/>
                         <outlet property="_userName" destination="5Jw-yW-WVW" id="UJE-WK-mAD"/>
+                        <segue destination="6Nn-7C-WBp" kind="show" identifier="login_to_profile" id="aW1-4Z-rxf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -609,7 +609,7 @@
                                                 </constraints>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jyh-b4-i0R">
                                                 <rect key="frame" x="39" y="156" width="126" height="30"/>
@@ -638,7 +638,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SOo-5G-hCx">
-                                <rect key="frame" x="144" y="842" width="126" height="30"/>
+                                <rect key="frame" x="144" y="812" width="126" height="30"/>
                                 <color key="backgroundColor" red="0.39719697833061218" green="0.78469163179397583" blue="0.89805376529693604" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="126" id="0QD-DF-jCp"/>
@@ -654,7 +654,6 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="SOo-5G-hCx" firstAttribute="bottom" secondItem="qb3-Cp-w01" secondAttribute="bottom" constant="10" id="AOc-Sn-GRw"/>
                             <constraint firstItem="RoN-cf-bdS" firstAttribute="centerX" secondItem="Ou4-Ry-r3L" secondAttribute="centerX" id="GEF-Fv-WrW"/>
                             <constraint firstItem="4eQ-ho-Yhk" firstAttribute="top" secondItem="Ou4-Ry-r3L" secondAttribute="top" id="R5a-p8-0Hc"/>
                             <constraint firstItem="RoN-cf-bdS" firstAttribute="centerY" secondItem="Ou4-Ry-r3L" secondAttribute="centerY" id="a7E-Hu-xYo"/>
@@ -662,6 +661,7 @@
                             <constraint firstItem="4eQ-ho-Yhk" firstAttribute="leading" secondItem="qb3-Cp-w01" secondAttribute="leading" id="eSo-aL-AKP"/>
                             <constraint firstAttribute="bottom" secondItem="4eQ-ho-Yhk" secondAttribute="bottom" id="osN-Lb-Oc8"/>
                             <constraint firstItem="4eQ-ho-Yhk" firstAttribute="trailing" secondItem="qb3-Cp-w01" secondAttribute="trailing" id="saH-t9-LLL"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="SOo-5G-hCx" secondAttribute="bottom" constant="20" id="zGh-hR-U4j"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="qb3-Cp-w01"/>
                     </view>
@@ -670,6 +670,7 @@
                         <outlet property="_password" destination="GSE-4N-Fq3" id="bgh-e8-Xqv"/>
                         <outlet property="_signUpButton" destination="Jyh-b4-i0R" id="v7z-ol-CAh"/>
                         <outlet property="_userName" destination="I7N-dC-1FI" id="9mu-mX-3fi"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="sing_up_to_login" id="clN-aT-by7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6OZ-5B-ank" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1077,6 +1078,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="LUG-hn-vFb"/>
-        <segue reference="HN9-mp-qBv"/>
+        <segue reference="clN-aT-by7"/>
     </inferredMetricsTieBreakers>
 </document>

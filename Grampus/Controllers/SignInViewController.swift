@@ -8,14 +8,7 @@
 
 import UIKit
 import JWTDecode
-
-
-struct TokenData: Codable {
-    
-    let success: Bool?
-    let token: String?
-
-}
+import Alamofire
 
 class SignInViewController: UIViewController, UITextFieldDelegate {
     
@@ -28,8 +21,6 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     let API_URL: String = "http://10.11.1.169:8080/api/users/login"
     let alert = AlertView()
-    
-    var tokenData: TokenData?
     
     // MARK: - Functions
     override func viewDidLoad() {
@@ -50,6 +41,74 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         removeNotifications()
+    }
+    
+    func saveUserToken( token: String ) {
+        let def = UserDefaults.standard
+        def.set("\(token)", forKey: "token")
+        def.synchronize()
+    }
+    
+    func saveUserId( userId: String ) {
+        let def = UserDefaults.standard
+        def.set("\(userId)", forKey: "userId")
+        def.synchronize()
+    }
+    
+    func decodeJwt( token: String) {
+        
+        let jwt = try! decode(jwt: token)
+        print("Decoded jwt ----------------\(jwt)")
+        let userId = jwt.claim(name: "id").rawValue
+        print("USER ID: \(userId!)")
+        saveUserId(userId: userId! as! String)
+        
+    }
+    
+    func signIn() {
+        
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json; charset=utf-8"
+        ]
+        
+        let body: [String : Any] = [
+            "username": String(describing: _userName.text!),
+            "password": String(describing: _password.text!),
+        ]
+        
+        //        let body: [String : Any] = [
+        //            "username": "aaaa127@email.com",
+        //            "password": "password",
+        //        ]
+        
+        Alamofire.request(API_URL, method: .post, parameters: body, encoding: JSONEncoding.default, headers: headers).validate().responseJSON { responseJSON in
+            
+            switch responseJSON.result {
+            case .success :
+                
+                if let result = responseJSON.result.value {
+                    let JSON = result as! NSDictionary
+                    
+                    let tokenWithBearer = (JSON["token"]! as! String)
+                    let wordToRemove = "Bearer "
+                    let tokenWithOutBearer = tokenWithBearer.deletingPrefix(wordToRemove)
+                    
+                    self.saveUserToken(token: tokenWithOutBearer)
+                    print(tokenWithOutBearer)
+                    
+                    self.decodeJwt(token: tokenWithOutBearer)
+                    self.performSegue(withIdentifier: "login_to_profile", sender: self)
+                }
+                
+            case .failure(let error) :
+                print(error)
+            }
+        }
+    }
+    
+    // MARK: - Actions
+    @IBAction func SignInButton(_ sender: UIButton) {
+        signIn()
     }
     
     func SetUpOutlets() {
@@ -124,69 +183,6 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    // MARK: - Actions
-    @IBAction func SignInButton(_ sender: UIButton) {
-        
-        fetch(url: (API_URL) , method: .post, data: jsonEx, callback: {(data: Any) -> Void in
-            print("DATA: ---------------- \(data)")
-            
-        })
-        
-    }
-    
-    func fetch(url: String, method: Methods, data: [String: Any] = ["0": "0"], callback: @escaping (_ data: Any) -> ()) {
-        guard let url = URL(string: url) else { return }
-        
-        var request = URLRequest(url: url)
-        
-        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")
-        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        
-        request.httpMethod = method.rawValue
-        
-        print(method.rawValue)
-        
-        if (method != .get) {
-            let jsonData = try! JSONSerialization.data(withJSONObject: data, options: [])
-            request.httpBody = jsonData
-        }
-        
-        let session = URLSession.shared
-        
-        session.dataTask(with: request) { (data, response, error) in
-            if let response = response as? HTTPURLResponse {
-                self.alert.showAlert(view: self, title: "Status Code", message: "\(response.statusCode)")
-            }
-            
-            guard let data = data else { return }
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: [])
-                
-                self.tokenData = try? JSONDecoder().decode(TokenData.self, from: data )
-                print("TOKEN: ---------------- \(self.tokenData?.token)")
-                
-                let tokenWBearer = self.tokenData?.token
-                let wordToRemove = "Bearer "
-                let tokenWithOutBearer = tokenWBearer!.deletingPrefix(wordToRemove)
-                let jwt = try decode(jwt: tokenWithOutBearer)
-                print("Decoded jwt ----------------\(jwt)")
-                
-                callback(json)
-            } catch {
-                print(error)
-            }
-            
-            }.resume()
-    }
-    
-    
-    
-    let jsonEx: [String : Any] = [
-        "username": "aaaa111@email.com",
-        "password": "password"
-//        "fullName": "aaa"
-    ]
-    
 }
 
 extension String {
@@ -195,3 +191,76 @@ extension String {
         return String(self.dropFirst(prefix.count))
     }
 }
+
+
+//        fetch(url: (API_URL) , method: .post, data: jsonEx, callback: {(data: Any) -> Void in
+//            print("DATA: ---------------- \(data)")
+//            DispatchQueue.main.async {
+//            self.performSegue(withIdentifier: "login_to_profile", sender: self)
+//            }
+//        })
+
+
+//    func fetch(url: String, method: Methods, data: [String: Any] = ["0": "0"], callback: @escaping (_ data: Any) -> ()) {
+//        guard let url = URL(string: url) else { return }
+//
+//        var request = URLRequest(url: url)
+//
+//        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")
+//        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+//
+//        request.httpMethod = method.rawValue
+//
+//        print(method.rawValue)
+//
+//        if (method != .get) {
+//            let jsonData = try! JSONSerialization.data(withJSONObject: data, options: [])
+//            request.httpBody = jsonData
+//        }
+//
+//        let session = URLSession.shared
+//
+//        session.dataTask(with: request) { (data, response, error) in
+//            if let response = response as? HTTPURLResponse {
+//
+////                self.alert.showAlert(view: self, title: "Status Code", message: "\(response.statusCode)")
+//
+//                print("Status CODE: \(response.statusCode)")
+//                if response.statusCode == 200 {
+//
+//                } else {
+//                    return
+//                }
+//
+//            }
+//
+//            guard let data = data else { return }
+//            do {
+//                let json = try JSONSerialization.jsonObject(with: data, options: [])
+//
+//                self.tokenData = try? JSONDecoder().decode(TokenData.self, from: data )
+//                print("TOKEN: ---------------- \(self.tokenData?.token)")
+//
+//                let tokenWithBearer = self.tokenData?.token
+//                let wordToRemove = "Bearer "
+//                let tokenWithOutBearer = tokenWithBearer!.deletingPrefix(wordToRemove)
+//
+//                self.saveUserToken(token: tokenWithOutBearer)
+//
+//                let jwt = try decode(jwt: tokenWithOutBearer)
+//                print("Decoded jwt ----------------\(jwt)")
+//
+//                callback(json)
+//            } catch {
+//                print(error)
+//            }
+//
+//            }.resume()
+//    }
+//
+//
+//    let jsonEx: [String : Any] = [
+//        "username": "aaaa123@email.com",
+//        "password": "password"
+//    ]
+//
