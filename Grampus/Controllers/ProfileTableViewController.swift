@@ -25,11 +25,21 @@ class ProfileTableViewController: UITableViewController {
     
     //Information cell
     @IBOutlet weak var _profileInformationLabel: UILabel!
+    
     //Skills cell
     @IBOutlet weak var _profileSkillsLabel: UILabel!
     
     let alert = AlertView()
-    //let API_URL: String = "http://10.11.1.169:8080/api/profiles/all"
+    
+    var fullName: String?
+    
+    var profession: String?
+    var likes: Int?
+    var dislikes: Int?
+    var information: String?
+    var skills: String?
+    var achievements: String?
+    var profilePicture: String?
     
     override func loadView() {
         super.loadView()
@@ -85,17 +95,51 @@ class ProfileTableViewController: UITableViewController {
                     print("USER")
                     print(user)
                     
-                    let fullName = user["fullName"] as! String
-                    let profession = user["jobTitle"] as! String
-                    let likes = JSON["likes"] as! Int
-                    let dislikes = JSON["dislikes"] as! Int
+                    self.fullName = user["fullName"] as? String
+                    self.profession = user["jobTitle"] as? String
+                    self.likes = JSON["likes"] as? Int
+                    self.dislikes = JSON["dislikes"] as? Int
+                    self.information = JSON["information"] as? String
+                    self.skills = JSON["skills"] as? String
                     
-                    self.setUpOverviewCell(fullName: fullName, profession: profession, likes: likes, dislikes: dislikes)
+                    if let unwrappedFullName = self.fullName {
+                        self.fullName = unwrappedFullName
+                    } else {
+                        self.fullName = "Full Name"
+                    }
+                    
+                    if let unwrappedProfession = self.profession {
+                        self.profession = unwrappedProfession
+                    } else {
+                        self.profession = "Job Title"
+                    }
+                    
+                    if let unwrappedLikes = self.likes {
+                        self.likes = unwrappedLikes
+                    } else {
+                        self.likes = 0
+                    }
+                    
+                    if let unwrappedDislikes = self.dislikes {
+                        self.dislikes = unwrappedDislikes
+                    } else {
+                        self.dislikes = 0
+                    }
+                    
+                    if let unwrappedInformation = self.information {
+                        self.information = unwrappedInformation
+                    } else {
+                        self.information = "Information"
+                    }
+                    
+                    if let unwrappedSkills = self.skills {
+                        self.skills = unwrappedSkills
+                    } else {
+                        self.skills = "Skills"
+                    }
+                    
+                    self.setUpOverviewCell(fullName: self.fullName!, profession: self.profession!, likes: self.likes!, dislikes: self.dislikes!, information: self.information!, skills: self.skills!)
                 }
-                
-                //                print(responseJSON.data)
-                //                print(responseJSON.result)
-                //                print(responseJSON.value)
                 
             case .failure(let error) :
                 print(error)
@@ -103,12 +147,14 @@ class ProfileTableViewController: UITableViewController {
         }
     }
     
-    func setUpOverviewCell( fullName: String, profession: String, likes: Int, dislikes: Int) {
+    func setUpOverviewCell( fullName: String, profession: String, likes: Int, dislikes: Int, information: String, skills: String) {
         
         _profileFullNameLabel.text = fullName
         _profileProfessionLabel.text = profession
         _profileLikeLabel.text = String(describing: likes)
-        _profileDislikeLabel.text = String(describing: dislikes) 
+        _profileDislikeLabel.text = String(describing: dislikes)
+        _profileInformationLabel.text = information
+        _profileSkillsLabel.text = skills
         self.tableView.reloadData()
     }
     
@@ -127,6 +173,7 @@ class ProfileTableViewController: UITableViewController {
         }
         alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
+            self.editInformation(informationText: textField?.text ?? "No info")
             self._profileInformationLabel.text = textField?.text
             self.tableView.reloadData()
             
@@ -135,6 +182,40 @@ class ProfileTableViewController: UITableViewController {
         // 4. Present the alert.
         self.present(alert, animated: true, completion: nil)
         self.tableView.reloadData()
+    }
+    
+    func editInformation( informationText: String) {
+        
+        let def = UserDefaults.standard
+        let token = def.string(forKey: "token")
+        let API_URL: String = "http://10.11.1.169:8080/api/profiles/"
+        
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json; charset=utf-8",
+            "Authorization": "Bearer \(token!)"
+        ]
+        
+        let body: [String : Any] = [
+            "information": "\(informationText)",
+            "achievements": "\(String(describing: self.achievements))",
+            "dislikes": self.dislikes!,
+            "likes": self.likes!,
+            "profilePicture": "\(String(describing: self.profilePicture))",
+            "skills": "\(String(describing: self.skills))"
+        ]
+        
+        Alamofire.request(API_URL, method: .post, parameters: body, encoding: JSONEncoding.default, headers: headers).validate().responseJSON { responseJSON in
+            
+            switch responseJSON.result {
+            case .success :
+                
+                self.tableView.reloadData()
+                
+            case .failure(let error) :
+                print(error)
+            }
+        }
+        
     }
     
     @IBAction func skillsAddAction(_ sender: Any) {
@@ -146,6 +227,7 @@ class ProfileTableViewController: UITableViewController {
         }
         alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
+            self.editSkills(skillsText: textField?.text ?? "No skiils")
             self._profileSkillsLabel.text = textField?.text
             self.tableView.reloadData()
             
@@ -154,6 +236,40 @@ class ProfileTableViewController: UITableViewController {
         // 4. Present the alert.
         self.present(alert, animated: true, completion: nil)
         self.tableView.reloadData()
+    }
+    
+    func editSkills( skillsText: String) {
+        
+        let def = UserDefaults.standard
+        let token = def.string(forKey: "token")
+        let API_URL: String = "http://10.11.1.169:8080/api/profiles/"
+        
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json; charset=utf-8",
+            "Authorization": "Bearer \(token!)"
+        ]
+        
+        let body: [String : Any] = [
+            "information": "\(String(describing: self.information!))",
+            "achievements": "\(String(describing: self.achievements))",
+            "dislikes": self.dislikes!,
+            "likes": self.likes!,
+            "profilePicture": "\(String(describing: self.profilePicture))",
+            "skills": "\(skillsText)"
+        ]
+        
+        Alamofire.request(API_URL, method: .post, parameters: body, encoding: JSONEncoding.default, headers: headers).validate().responseJSON { responseJSON in
+            
+            switch responseJSON.result {
+            case .success :
+                
+                self.tableView.reloadData()
+                
+            case .failure(let error) :
+                print(error)
+            }
+        }
+        
     }
     
     // MARK: - Table view data source
@@ -184,62 +300,3 @@ class ProfileTableViewController: UITableViewController {
     }
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    func fetch(url: String, method: Methods, data: [String: Any] = ["0": "0"], callback: @escaping (_ data: Any) -> ()) {
-//        guard let url = URL(string: url) else { return }
-//
-//        var request = URLRequest(url: url)
-//
-//        let def = UserDefaults.standard
-//        let token = def.string(forKey: "token")
-//        print("TOKEN: \(token)")
-//
-//        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")
-//        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-//        request.addValue("Bearer \(token!)", forHTTPHeaderField: "Authorization")
-//
-//
-//        request.httpMethod = method.rawValue
-//
-//        print(method.rawValue)
-//
-//        if (method != .get) {
-//            let jsonData = try! JSONSerialization.data(withJSONObject: data, options: [])
-//            request.httpBody = jsonData
-//        }
-//
-//        let session = URLSession.shared
-//
-//        session.dataTask(with: request) { (data, response, error) in
-//            if let response = response as? HTTPURLResponse {
-//                if response.statusCode == 200 {
-//                    print("Status CODE: \(response.statusCode)")
-//                } else {
-//                    self.alert.showAlert(view: self, title: "Status Code", message: "\(response.statusCode)")
-//                    return
-//                }
-//            }
-//
-//            guard let data = data else { return }
-//            do {
-//                let json = try JSONSerialization.jsonObject(with: data, options: [])
-//                callback(json)
-//            } catch {
-//                print(error)
-//            }
-//
-//            }.resume()
-//    }

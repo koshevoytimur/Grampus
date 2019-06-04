@@ -43,6 +43,13 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         removeNotifications()
     }
     
+    // Save authorize state.
+    func saveLoggedState() {
+        let def = UserDefaults.standard
+        def.set(true, forKey: "isLoggedIn")
+        def.synchronize()
+    }
+    
     func saveUserToken( token: String ) {
         let def = UserDefaults.standard
         def.set("\(token)", forKey: "token")
@@ -76,11 +83,6 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             "password": String(describing: _password.text!),
         ]
         
-        //        let body: [String : Any] = [
-        //            "username": "aaaa127@email.com",
-        //            "password": "password",
-        //        ]
-        
         Alamofire.request(API_URL, method: .post, parameters: body, encoding: JSONEncoding.default, headers: headers).validate().responseJSON { responseJSON in
             
             switch responseJSON.result {
@@ -97,6 +99,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                     print(tokenWithOutBearer)
                     
                     self.decodeJwt(token: tokenWithOutBearer)
+                    self.saveLoggedState()
                     self.performSegue(withIdentifier: "login_to_profile", sender: self)
                 }
                 
