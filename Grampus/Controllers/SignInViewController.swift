@@ -9,6 +9,7 @@
 import UIKit
 import JWTDecode
 import Alamofire
+import ValidationComponents
 
 class SignInViewController: UIViewController, UITextFieldDelegate {
     
@@ -19,8 +20,9 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var _signInButton: UIButton!
     @IBOutlet weak var _signUpButton: UIButton!
     
-    let API_URL: String = "http://10.11.1.169:8080/api/users/login"
+    let predicate = EmailValidationPredicate()
     let alert = AlertView()
+    let API_URL: String = "http://10.11.1.169:8080/api/users/login"
     
     // MARK: - Functions
     override func viewDidLoad() {
@@ -104,6 +106,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                 }
                 
             case .failure(let error) :
+                self.showAlert("Incorrect input", "User not found!")
                 print(error)
             }
         }
@@ -111,7 +114,48 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Actions
     @IBAction func SignInButton(_ sender: UIButton) {
+       
+        let email = _userName.text
+        let emailFormatBool = predicate.evaluate(with: email)
+        
+        // Email isEmpty check.
+        if (email!.isEmpty) {
+            showAlert("Incorrect input", "Enter Email!")
+            
+            return
+        } else {
+            // Email validation.
+            if (!emailFormatBool) {
+                showAlert("Incorrect input", "Email format not correct!")
+                
+                return
+            }
+        }
+        
+        // Check lenght of password
+        if let password = _password.text {
+            if password.count < 6 {
+                showAlert("Password too short", "Password shoud be more than 5 characters!")
+                
+            } else if password.count >= 24 {
+                showAlert("Password too long", "Password shoud be less then 24 symbols")
+                
+            }
+        }
+        
         signIn()
+    }
+    
+    func showAlert(_ title: String, _ message: String) {
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        
+        alert.addAction(action)
+        
+        present(alert, animated: true, completion: nil)
+        
     }
     
     func SetUpOutlets() {
@@ -194,76 +238,3 @@ extension String {
         return String(self.dropFirst(prefix.count))
     }
 }
-
-
-//        fetch(url: (API_URL) , method: .post, data: jsonEx, callback: {(data: Any) -> Void in
-//            print("DATA: ---------------- \(data)")
-//            DispatchQueue.main.async {
-//            self.performSegue(withIdentifier: "login_to_profile", sender: self)
-//            }
-//        })
-
-
-//    func fetch(url: String, method: Methods, data: [String: Any] = ["0": "0"], callback: @escaping (_ data: Any) -> ()) {
-//        guard let url = URL(string: url) else { return }
-//
-//        var request = URLRequest(url: url)
-//
-//        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")
-//        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-//
-//        request.httpMethod = method.rawValue
-//
-//        print(method.rawValue)
-//
-//        if (method != .get) {
-//            let jsonData = try! JSONSerialization.data(withJSONObject: data, options: [])
-//            request.httpBody = jsonData
-//        }
-//
-//        let session = URLSession.shared
-//
-//        session.dataTask(with: request) { (data, response, error) in
-//            if let response = response as? HTTPURLResponse {
-//
-////                self.alert.showAlert(view: self, title: "Status Code", message: "\(response.statusCode)")
-//
-//                print("Status CODE: \(response.statusCode)")
-//                if response.statusCode == 200 {
-//
-//                } else {
-//                    return
-//                }
-//
-//            }
-//
-//            guard let data = data else { return }
-//            do {
-//                let json = try JSONSerialization.jsonObject(with: data, options: [])
-//
-//                self.tokenData = try? JSONDecoder().decode(TokenData.self, from: data )
-//                print("TOKEN: ---------------- \(self.tokenData?.token)")
-//
-//                let tokenWithBearer = self.tokenData?.token
-//                let wordToRemove = "Bearer "
-//                let tokenWithOutBearer = tokenWithBearer!.deletingPrefix(wordToRemove)
-//
-//                self.saveUserToken(token: tokenWithOutBearer)
-//
-//                let jwt = try decode(jwt: tokenWithOutBearer)
-//                print("Decoded jwt ----------------\(jwt)")
-//
-//                callback(json)
-//            } catch {
-//                print(error)
-//            }
-//
-//            }.resume()
-//    }
-//
-//
-//    let jsonEx: [String : Any] = [
-//        "username": "aaaa123@email.com",
-//        "password": "password"
-//    ]
-//

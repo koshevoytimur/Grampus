@@ -9,7 +9,7 @@
 import UIKit
 
 class MenuTableViewController: UITableViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -17,81 +17,41 @@ class MenuTableViewController: UITableViewController {
         
         self.tableView.separatorStyle = .none
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // preserve selection between presentations
+         self.clearsSelectionOnViewWillAppear = true
+        
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
+
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 8
+
+        return 7
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        <#code#>
+        
+        if indexPath.row == 6 {
+            saveLoggedState()
+            saveUserToken()
+        }
     }
     
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "123123", for: indexPath)
-//
-//
-//
-//        return cell
-//    }
- 
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    func saveLoggedState() {
+        let def = UserDefaults.standard
+        def.set(false, forKey: "isLoggedIn")
+        def.synchronize()
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    func saveUserToken() {
+        let def = UserDefaults.standard
+        def.set("", forKey: "token")
+        def.synchronize()
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
