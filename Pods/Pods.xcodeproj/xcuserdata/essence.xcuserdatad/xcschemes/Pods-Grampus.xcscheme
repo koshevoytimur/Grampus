@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E1EAA4F8C28B25B229FAE61B842AB77E"
+               BlueprintIdentifier = "B7C182D13AA0DE205CA8375644E92AED"
                BuildableName = "Pods_Grampus.framework"
                BlueprintName = "Pods-Grampus"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E1EAA4F8C28B25B229FAE61B842AB77E"
+            BlueprintIdentifier = "B7C182D13AA0DE205CA8375644E92AED"
             BuildableName = "Pods_Grampus.framework"
             BlueprintName = "Pods-Grampus"
             ReferencedContainer = "container:Pods.xcodeproj">

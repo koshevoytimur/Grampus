@@ -8,6 +8,7 @@ target 'Grampus' do
   pod 'ValidationComponents'
   pod 'JWTDecode', '~> 2.3'
   pod 'Alamofire'
+  pod 'SwiftyJSON'
   # Pods for Grampus
 
 end

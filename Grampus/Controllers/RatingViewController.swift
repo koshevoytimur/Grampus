@@ -10,6 +10,7 @@
 
 import UIKit
 import Alamofire
+import SwiftyJSON
 
 class RatingViewController: UIViewController, ModalViewControllerDelegate {
     
@@ -22,11 +23,18 @@ class RatingViewController: UIViewController, ModalViewControllerDelegate {
     let names = ["adsad", "fdsfdsfdsf", "Barack Obama"]
     let API_URL = "http://10.11.1.169:8080/api/profiles/all"
     
+    var json: JSON!
+    
     // MARK: - Functions
+    
+    override func loadView() {
+        super.loadView()
+        
+//        fetchAllUsers()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        fetchAllUsers()
         
         _tableView.delegate = self
         _tableView.dataSource = self
@@ -39,44 +47,6 @@ class RatingViewController: UIViewController, ModalViewControllerDelegate {
             
             self.view.addGestureRecognizer(revealViewController().panGestureRecognizer())
         }
-    }
-    
-    func fetchAllUsers() {
-        
-        let def = UserDefaults.standard
-        
-        let token = def.string(forKey: "token")
-        
-        let headers: HTTPHeaders = [
-            "Content-Type": "application/json; charset=utf-8",
-            "Authorization": "Bearer \(token!)"
-        ]
-        
-        Alamofire.request(API_URL, method: .get, encoding: JSONEncoding.default, headers: headers).validate().responseJSON { responseJSON in
-            
-            switch responseJSON.result {
-            case .success :
-                
-                if let result = responseJSON.result.value {
-                    
-                    print("GET ALL USERS ------------------------------")
-                    let JSON = result as! NSDictionary
-                    
-                    let user = JSON["user"] as! NSDictionary
-                    
-                    print("NSDictionary")
-                    print(JSON)
-                    print("USER")
-                    print(user)
-                    
-                }
-                
-            case .failure(let error) :
-                print(error)
-                
-            }
-        }
-        
     }
     
     func navBarAppearance() {
@@ -154,13 +124,40 @@ extension RatingViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return names.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ratingCell", for: indexPath) as! RatingTableViewCell
         
-        cell._nameLabelCell.text = names[indexPath.row]
+        if let id = self.json[0]["id"].int {
+            print(id)
+        } else {
+            print("HERE WE GO AGAIN 1")
+        }
+        
+        if let userName = self.json[0]["user"]["username"].string {
+            print(userName)
+            cell._nameLabelCell.text = userName
+        } else {
+            print("HERE WE GO AGAIN 2")
+        }
+        
+        if let jobTitle = self.json[0]["user"]["jobTitle"].string {
+            print(jobTitle)
+        } else {
+            print("HERE WE GO AGAIN 3")
+        }
+        
+        if let profilePicture = self.json[0]["profilePicture"].string {
+            print(profilePicture)
+        } else {
+            print("HERE WE GO AGAIN 4")
+        }
+        
+        
+        
+        
         
         return cell
     }
