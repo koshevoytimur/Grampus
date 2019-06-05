@@ -23,7 +23,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     let predicate = EmailValidationPredicate()
     let alert = AlertView()
     let API_URL: String = "http://10.11.1.169:8080/api/users/login"
-    
+
     // MARK: - Functions
     override func viewDidLoad() {
         super.viewDidLoad()

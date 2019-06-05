@@ -30,9 +30,10 @@ class ProfileTableViewController: UITableViewController {
     @IBOutlet weak var _profileSkillsLabel: UILabel!
     
     let alert = AlertView()
-    
+    let menuVC = MenuTableViewController()
+
     var fullName: String?
-    
+    var email: String?
     var profession: String?
     var likes: Int?
     var dislikes: Int?
@@ -97,6 +98,7 @@ class ProfileTableViewController: UITableViewController {
                     
                     self.fullName = user["fullName"] as? String
                     self.profession = user["jobTitle"] as? String
+                    self.email = user["username"] as? String
                     self.likes = JSON["likes"] as? Int
                     self.dislikes = JSON["dislikes"] as? Int
                     self.information = JSON["information"] as? String
@@ -106,6 +108,12 @@ class ProfileTableViewController: UITableViewController {
                         self.fullName = unwrappedFullName
                     } else {
                         self.fullName = "Full Name"
+                    }
+                    
+                    if let unwrappedEmail = self.email {
+                        self.email = unwrappedEmail
+                    } else {
+                        self.email = "email"
                     }
                     
                     if let unwrappedProfession = self.profession {
@@ -138,7 +146,7 @@ class ProfileTableViewController: UITableViewController {
                         self.skills = "Skills"
                     }
                     
-                    self.setUpOverviewCell(fullName: self.fullName!, profession: self.profession!, likes: self.likes!, dislikes: self.dislikes!, information: self.information!, skills: self.skills!)
+                    self.setUpProfile(fullName: self.fullName!, profession: self.profession!, likes: self.likes!, dislikes: self.dislikes!, information: self.information!, skills: self.skills!)
                 }
                 
             case .failure(let error) :
@@ -147,7 +155,7 @@ class ProfileTableViewController: UITableViewController {
         }
     }
     
-    func setUpOverviewCell( fullName: String, profession: String, likes: Int, dislikes: Int, information: String, skills: String) {
+    func setUpProfile( fullName: String, profession: String, likes: Int, dislikes: Int, information: String, skills: String) {
         
         _profileFullNameLabel.text = fullName
         _profileProfessionLabel.text = profession
@@ -173,7 +181,7 @@ class ProfileTableViewController: UITableViewController {
         }
         alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
-            self.editInformation(informationText: textField?.text ?? "No info")
+            self.editProfileText(key: "information", text: textField?.text ?? "No info")
             self._profileInformationLabel.text = textField?.text
             self.tableView.reloadData()
             
@@ -182,40 +190,6 @@ class ProfileTableViewController: UITableViewController {
         // 4. Present the alert.
         self.present(alert, animated: true, completion: nil)
         self.tableView.reloadData()
-    }
-    
-    func editInformation( informationText: String) {
-        
-        let def = UserDefaults.standard
-        let token = def.string(forKey: "token")
-        let API_URL: String = "http://10.11.1.169:8080/api/profiles/"
-        
-        let headers: HTTPHeaders = [
-            "Content-Type": "application/json; charset=utf-8",
-            "Authorization": "Bearer \(token!)"
-        ]
-        
-        let body: [String : Any] = [
-            "information": "\(informationText)",
-            "achievements": "\(String(describing: self.achievements))",
-            "dislikes": self.dislikes!,
-            "likes": self.likes!,
-            "profilePicture": "\(String(describing: self.profilePicture))",
-            "skills": "\(String(describing: self.skills))"
-        ]
-        
-        Alamofire.request(API_URL, method: .post, parameters: body, encoding: JSONEncoding.default, headers: headers).validate().responseJSON { responseJSON in
-            
-            switch responseJSON.result {
-            case .success :
-                
-                self.tableView.reloadData()
-                
-            case .failure(let error) :
-                print(error)
-            }
-        }
-        
     }
     
     @IBAction func skillsAddAction(_ sender: Any) {
@@ -227,7 +201,7 @@ class ProfileTableViewController: UITableViewController {
         }
         alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
-            self.editSkills(skillsText: textField?.text ?? "No skiils")
+            self.editProfileText(key: "skills", text: textField?.text ?? "No skiils")
             self._profileSkillsLabel.text = textField?.text
             self.tableView.reloadData()
             
@@ -238,7 +212,7 @@ class ProfileTableViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
-    func editSkills( skillsText: String) {
+    func editProfileText( key: String, text: String) {
         
         let def = UserDefaults.standard
         let token = def.string(forKey: "token")
@@ -250,12 +224,7 @@ class ProfileTableViewController: UITableViewController {
         ]
         
         let body: [String : Any] = [
-            "information": "\(String(describing: self.information!))",
-            "achievements": "\(String(describing: self.achievements))",
-            "dislikes": self.dislikes!,
-            "likes": self.likes!,
-            "profilePicture": "\(String(describing: self.profilePicture))",
-            "skills": "\(skillsText)"
+            key: text
         ]
         
         Alamofire.request(API_URL, method: .post, parameters: body, encoding: JSONEncoding.default, headers: headers).validate().responseJSON { responseJSON in

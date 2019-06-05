@@ -27,4 +27,10 @@ class RatingTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
 
+    @IBAction func likeButtonAction(_ sender: Any) {
+    }
+    
+    @IBAction func dislikeButtonAction(_ sender: Any) {
+    }
+    
 }
