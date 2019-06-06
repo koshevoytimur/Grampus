@@ -31,8 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.makeKeyAndVisible()
             print("true")
             
-            fetchAllUsers()
-
         } else {
             print("false")
             self.window = UIWindow(frame: UIScreen.main.bounds)
@@ -45,54 +43,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         return true
-    }
-    
-    func fetchAllUsers() {
-        
-        let ratingVC = RatingViewController()
-        let def = UserDefaults.standard
-        
-        let token = def.string(forKey: "token")
-        
-        let API_URL = "http://10.11.1.169:8080/api/profiles/all"
-
-        let headers: HTTPHeaders = [
-            "Content-Type": "application/json; charset=utf-8",
-            "Authorization": "Bearer \(token!)"
-        ]
-        
-        Alamofire.request(API_URL, method: .get, encoding: JSONEncoding.default, headers: headers).validate().responseJSON { responseJSON in
-            
-            switch responseJSON.result {
-            case .success :
-                
-                
-                print("fetchAllUsers ------------------------------")
-                if let result = responseJSON.result.value {
-                    
-                    
-                    let jsoncheg = JSON(result)
-                    ratingVC.json = jsoncheg
-                    
-                    print("ratingVC.jsonratingVC.jsonratingVC.jsonratingVC.jsonratingVC.jsonratingVC.json")
-                    print(ratingVC.json)
-                    
-                    if let id = jsoncheg[0]["id"].int {
-                        print("===============================================")
-                        print(id)
-                    } else {
-                        print("HERE WE GO AGAIN 1")
-                    }
-                    //                     print(json)
-                    
-                }
-                
-            case .failure(let error) :
-                print(error)
-                
-            }
-        }
-        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

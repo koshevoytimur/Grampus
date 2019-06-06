@@ -153,7 +153,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="39b-zx-hAQ">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="39b-zx-hAQ">
                                 <rect key="frame" x="0.0" y="144" width="414" height="752"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -200,7 +200,6 @@
                                                         </attributedString>
                                                     </state>
                                                     <connections>
-                                                        <action selector="dislikeButtonAction:" destination="pNn-Yg-PcK" eventType="touchUpInside" id="JHe-li-HVQ"/>
                                                         <action selector="dislikeButtonAction:" destination="CY6-yc-HzM" eventType="touchUpInside" id="Vf3-fm-m25"/>
                                                     </connections>
                                                 </button>
@@ -221,7 +220,6 @@
                                                         </attributedString>
                                                     </state>
                                                     <connections>
-                                                        <action selector="likeButtonAction:" destination="pNn-Yg-PcK" eventType="touchUpInside" id="gsv-Yf-Oe1"/>
                                                         <action selector="likeButtonAction:" destination="CY6-yc-HzM" eventType="touchUpInside" id="oz8-EH-dT2"/>
                                                     </connections>
                                                 </button>
@@ -250,7 +248,9 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="_dislikeButton" destination="gtq-Fq-fud" id="dPa-Td-7RZ"/>
                                             <outlet property="_imageViewCell" destination="Qxb-m3-18l" id="CpA-j9-jsw"/>
+                                            <outlet property="_likeButton" destination="M5i-ny-19n" id="Okr-sC-rjX"/>
                                             <outlet property="_nameLabelCell" destination="BMk-0f-Ygl" id="uF3-1x-MEF"/>
                                             <outlet property="_professionLabelCell" destination="jE3-J9-jwg" id="VfJ-og-XtD"/>
                                         </connections>
@@ -1172,6 +1172,7 @@
                         <outlet property="_firstButton" destination="acZ-Gq-dzz" id="57P-xU-q6h"/>
                         <outlet property="_okButton" destination="Fzp-Ch-YJD" id="e2q-Eg-sAl"/>
                         <outlet property="_secondButton" destination="MNX-3a-OK9" id="9dk-mf-rcH"/>
+                        <outlet property="_textField" destination="ggw-Km-E4a" id="iUN-f7-eKx"/>
                         <outlet property="_thirdButton" destination="HH4-40-tV0" id="buE-Fs-6cT"/>
                     </connections>
                 </viewController>

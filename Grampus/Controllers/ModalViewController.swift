@@ -7,22 +7,25 @@
 //
 
 import UIKit
+import Alamofire
 
 protocol ModalViewControllerDelegate: class {
     func removeBlurredBackgroundView()
 }
 
 class ModalViewController: UIViewController {
-
+    
     @IBOutlet weak var _firstButton: UIButton!
     @IBOutlet weak var _secondButton: UIButton!
     @IBOutlet weak var _thirdButton: UIButton!
     @IBOutlet weak var _cancelButton: UIButton!
     @IBOutlet weak var _okButton: UIButton!
+    @IBOutlet weak var _textField: UITextField!
     
-    var selectedCategory: String?
+    var ratingType: String?
     var likeState: Bool?
-    
+    var selectedUserId: Int?
+
     weak var delegate: ModalViewControllerDelegate?
     
     override func loadView() {
@@ -38,20 +41,44 @@ class ModalViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        _textField.delegate = self
+        _textField.text = ""
     }
-
+    
     override func viewDidLayoutSubviews() {
         view.backgroundColor = UIColor.clear
+    }
+    
+    func addLikeOrDislike( ratingType: String, apiUrl: String ) {
         
-//        //ensure that the icon embeded in the cancel button fits in nicely
-//        cancelButton.imageView?.contentMode = .scaleAspectFit
-//
-//        //add a white tint color for the Cancel button image
-//        let cancelImage = UIImage(named: "Cancel")
-//
-//        let tintedCancelImage = cancelImage?.withRenderingMode(.alwaysTemplate)
-//        cancelButton.setImage(tintedCancelImage, for: .normal)
-//        cancelButton.tintColor = .white
+        let def = UserDefaults.standard
+        
+        let token = def.string(forKey: "token")
+        
+        print("func addLikeOrDislike ==================")
+        print(token)
+        print(apiUrl)
+        print(ratingType)
+        
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json; charset=utf-8",
+            "Authorization": "Bearer \(token!)"
+        ]
+        
+        let body: [String : Any] = [
+            "ratingType": "\(String(describing: ratingType))"
+        ]
+        
+        Alamofire.request(apiUrl, method: .post, parameters: body, encoding: JSONEncoding.default, headers: headers).validate().responseJSON { responseJSON in
+            
+            switch responseJSON.result {
+            case .success :
+                print("Success")
+                
+            case .failure(let error) :
+                print(error)
+            }
+        }
     }
     
     func configureButtons() {
@@ -77,50 +104,90 @@ class ModalViewController: UIViewController {
     }
     
     @IBAction func firstAction(_ sender: Any) {
-       
+        
         if likeState! {
-           selectedCategory = "like_best_looker"
+            ratingType = "like_best_looker"
         } else {
-            selectedCategory = "dislike_untidy"
+            ratingType = "dislike_untidy"
         }
         _firstButton.backgroundColor = UIColor.blue
         _secondButton.backgroundColor = UIColor.darkGray
         _thirdButton.backgroundColor = UIColor.darkGray
-        print(selectedCategory)
     }
     
     @IBAction func secondAction(_ sender: Any) {
         
         if likeState! {
-            selectedCategory = "like_super_worker"
+            ratingType = "like_super_worker"
         } else {
-            selectedCategory = "dislike_deadliner"
+            ratingType = "dislike_deadliner"
         }
         _firstButton.backgroundColor = UIColor.darkGray
         _secondButton.backgroundColor = UIColor.blue
         _thirdButton.backgroundColor = UIColor.darkGray
-        print(selectedCategory)
     }
     
     @IBAction func thirdAction(_ sender: Any) {
         
         if likeState! {
-            selectedCategory = "like_extrovert"
+            ratingType = "like_extrovert"
         } else {
-            selectedCategory = "dislike_introvert"
+            ratingType = "dislike_introvert"
         }
         _firstButton.backgroundColor = UIColor.darkGray
         _secondButton.backgroundColor = UIColor.darkGray
         _thirdButton.backgroundColor = UIColor.blue
-        print(selectedCategory)
     }
     
     @IBAction func okButtonAction(_ sender: Any) {
-    
+        
+        if let unwrappedRatingType = ratingType {
+            ratingType = unwrappedRatingType
+            
+            var API_URL = ""
+            
+            let def = UserDefaults.standard
+            selectedUserId = def.integer(forKey: "selectedUserId")
+            
+            if likeState! {
+                
+                API_URL = "http://10.11.1.104:8080/api/profiles/\(String(describing: selectedUserId!))/like"
+            } else {
+                API_URL = "http://10.11.1.104:8080/api/profiles/\(String(describing: selectedUserId!))/dislike"
+            }
+            
+            addLikeOrDislike(ratingType: ratingType!, apiUrl: API_URL)
+            dismiss(animated: true, completion: nil)
+            delegate?.removeBlurredBackgroundView()
+            
+        } else {
+            return
+        }
+        
     }
     
     @IBAction func cancelButtonAction(_ sender: Any) {
         dismiss(animated: true, completion: nil)
         delegate?.removeBlurredBackgroundView()
     }
+}
+
+extension ModalViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        _textField.resignFirstResponder()
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if range.length + range.location > _textField.text!.count {
+            return false
+        }
+        
+        let newLenghth = _textField.text!.count + string.count - range.length
+        
+        return newLenghth <= 24
+        
+    }
+    
 }

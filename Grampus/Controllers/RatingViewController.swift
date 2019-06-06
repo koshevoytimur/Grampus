@@ -21,16 +21,16 @@ class RatingViewController: UIViewController, ModalViewControllerDelegate {
     @IBOutlet weak var _tableView: UITableView!
     
     let names = ["adsad", "fdsfdsfdsf", "Barack Obama"]
-    let API_URL = "http://10.11.1.169:8080/api/profiles/all"
+    let API_URL = "http://10.11.1.104:8080/api/profiles/all"
     
-    var json: JSON!
+    var json = JSON()
     
     // MARK: - Functions
     
     override func loadView() {
         super.loadView()
         
-//        fetchAllUsers()
+        fetchAllUsers()
     }
     
     override func viewDidLoad() {
@@ -49,6 +49,47 @@ class RatingViewController: UIViewController, ModalViewControllerDelegate {
         }
     }
     
+    func fetchAllUsers() {
+        
+        let def = UserDefaults.standard
+        
+        let token = def.string(forKey: "token")
+        
+        let API_URL = "http://10.11.1.104:8080/api/profiles/all"
+        
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json; charset=utf-8",
+            "Authorization": "Bearer \(token!)"
+        ]
+        
+        Alamofire.request(API_URL, method: .get, encoding: JSONEncoding.default, headers: headers).validate().responseJSON { responseJSON in
+            
+            switch responseJSON.result {
+            case .success :
+                
+                if let result = responseJSON.result.value {
+                    
+                    
+                    self.json = JSON(result)
+                    
+                    if let id = self.json[0]["id"].int {
+                        print("===============================================")
+                        print(id)
+                    } else {
+                        print("HERE WE GO AGAIN 1")
+                    }
+                    //                     print(json)
+                    self._tableView.reloadData()
+                }
+                
+            case .failure(let error) :
+                print(error)
+                
+            }
+        }
+        
+    }
+    
     func navBarAppearance() {
         _navigationBar.barTintColor = UIColor.darkText
         _navigationBar.tintColor = UIColor.white
@@ -65,7 +106,6 @@ class RatingViewController: UIViewController, ModalViewControllerDelegate {
         chooseLikeOrDislike( bool: true )
         
         self.performSegue(withIdentifier: "ShowModalView", sender: self)
-        
         self.definesPresentationContext = true
         self.providesPresentationContextTransitionStyle = true
         
@@ -114,6 +154,26 @@ class RatingViewController: UIViewController, ModalViewControllerDelegate {
         }
     }
     
+    func saveSelectedUserId( selectedUserId: Int ) {
+        let def = UserDefaults.standard
+        def.set(selectedUserId, forKey: "selectedUserId")
+        def.synchronize()
+    }
+    
+    @objc func buttonClicked(sender:UIButton) {
+        let buttonRow = sender.tag
+        print("BUTTON ROW ==============")
+        print(buttonRow)
+        
+        if let id = self.json[buttonRow]["id"].int {
+            print("selectedUserId ==============")
+            print(id)
+            saveSelectedUserId(selectedUserId: id)
+        } else {
+            print("HERE WE GO AGAIN 1")
+        }
+    }
+    
 }
 
 extension RatingViewController: UITableViewDelegate, UITableViewDataSource {
@@ -124,42 +184,52 @@ extension RatingViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return json.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ratingCell", for: indexPath) as! RatingTableViewCell
         
-        if let id = self.json[0]["id"].int {
+        var userNameToDisplay = ""
+        var jobTitleToDisplay = ""
+        
+        if let id = self.json[indexPath.row]["id"].int {
             print(id)
         } else {
             print("HERE WE GO AGAIN 1")
         }
         
-        if let userName = self.json[0]["user"]["username"].string {
+        if let userName = self.json[indexPath.row]["user"]["username"].string {
             print(userName)
-            cell._nameLabelCell.text = userName
+            userNameToDisplay = userName
         } else {
             print("HERE WE GO AGAIN 2")
         }
         
-        if let jobTitle = self.json[0]["user"]["jobTitle"].string {
+        if let jobTitle = self.json[indexPath.row]["user"]["jobTitle"].string {
+            jobTitleToDisplay = jobTitle
             print(jobTitle)
         } else {
             print("HERE WE GO AGAIN 3")
         }
         
-        if let profilePicture = self.json[0]["profilePicture"].string {
+        if let profilePicture = self.json[indexPath.row]["profilePicture"].string {
             print(profilePicture)
         } else {
-            print("HERE WE GO AGAIN 4")
+            //            print("HERE WE GO AGAIN 4")
         }
         
         
+        DispatchQueue.main.async {
+            cell._nameLabelCell.text = userNameToDisplay
+            cell._professionLabelCell.text = jobTitleToDisplay
+        }
         
-        
+        cell._likeButton.tag = indexPath.row
+        cell._likeButton.addTarget(self, action: #selector(self.buttonClicked), for: UIControl.Event.touchUpInside)
         
         return cell
+        
     }
     
 }

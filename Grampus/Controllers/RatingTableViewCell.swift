@@ -13,7 +13,8 @@ class RatingTableViewCell: UITableViewCell {
     @IBOutlet weak var _imageViewCell: UIImageView!
     @IBOutlet weak var _nameLabelCell: UILabel!
     @IBOutlet weak var _professionLabelCell: UILabel!
-    
+    @IBOutlet weak var _likeButton: UIButton!
+    @IBOutlet weak var _dislikeButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,12 +26,6 @@ class RatingTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-    }
-
-    @IBAction func likeButtonAction(_ sender: Any) {
-    }
-    
-    @IBAction func dislikeButtonAction(_ sender: Any) {
     }
     
 }

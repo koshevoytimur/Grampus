@@ -74,7 +74,7 @@ class ProfileTableViewController: UITableViewController {
         let token = def.string(forKey: "token")
         let userId = def.string(forKey: "userId")
         
-        let API_URL: String = "http://10.11.1.169:8080/api/profiles/\(userId!)"
+        let API_URL: String = "http://10.11.1.104:8080/api/profiles/\(userId!)"
         
         let headers: HTTPHeaders = [
             "Content-Type": "application/json; charset=utf-8",
