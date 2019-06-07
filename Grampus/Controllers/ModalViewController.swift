@@ -21,10 +21,12 @@ class ModalViewController: UIViewController {
     @IBOutlet weak var _cancelButton: UIButton!
     @IBOutlet weak var _okButton: UIButton!
     @IBOutlet weak var _textField: UITextField!
+    @IBOutlet weak var _countLabel: UILabel!
     
     var ratingType: String?
     var likeState: Bool?
     var selectedUserId: Int?
+    var charactersCount = "0/24"
 
     weak var delegate: ModalViewControllerDelegate?
     
@@ -32,7 +34,7 @@ class ModalViewController: UIViewController {
         super.loadView()
         
         let def = UserDefaults.standard
-        likeState = def.bool(forKey: "like")
+        likeState = def.bool(forKey: userDefKeys.likeState.rawValue)
         
         configureButtons()
         
@@ -43,17 +45,27 @@ class ModalViewController: UIViewController {
         
         _textField.delegate = self
         _textField.text = ""
+        _countLabel.text = charactersCount
     }
     
     override func viewDidLayoutSubviews() {
         view.backgroundColor = UIColor.clear
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setUpNotifications()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        removeNotifications()
+    }
+    
     func addLikeOrDislike( ratingType: String, apiUrl: String ) {
         
         let def = UserDefaults.standard
-        
-        let token = def.string(forKey: "token")
+        let token = def.string(forKey: userDefKeys.token.rawValue)
         
         print("func addLikeOrDislike ==================")
         print(token)
@@ -147,13 +159,13 @@ class ModalViewController: UIViewController {
             var API_URL = ""
             
             let def = UserDefaults.standard
-            selectedUserId = def.integer(forKey: "selectedUserId")
+            selectedUserId = def.integer(forKey: userDefKeys.selectedUserId.rawValue)
             
             if likeState! {
                 
-                API_URL = "http://10.11.1.104:8080/api/profiles/\(String(describing: selectedUserId!))/like"
+                API_URL = "\(dURL.dynamicURL.rawValue)profiles/\(String(describing: selectedUserId!))/like"
             } else {
-                API_URL = "http://10.11.1.104:8080/api/profiles/\(String(describing: selectedUserId!))/dislike"
+                API_URL = "\(dURL.dynamicURL.rawValue)profiles/\(String(describing: selectedUserId!))/dislike"
             }
             
             addLikeOrDislike(ratingType: ratingType!, apiUrl: API_URL)
@@ -170,6 +182,32 @@ class ModalViewController: UIViewController {
         dismiss(animated: true, completion: nil)
         delegate?.removeBlurredBackgroundView()
     }
+    
+    // Notifications for moving view when keyboard appears.
+    func setUpNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    // Removing notifications.
+    func removeNotifications() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillHide() {
+        self.view.frame.origin.y = 0
+    }
+    
+    @objc func keyboardWillChange(notification: NSNotification) {
+        
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if _textField.isFirstResponder {
+                self.view.frame.origin.y = -keyboardSize.height + 100
+            }
+        }
+    }
 }
 
 extension ModalViewController: UITextFieldDelegate {
@@ -180,13 +218,19 @@ extension ModalViewController: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
         if range.length + range.location > _textField.text!.count {
+//            charactersCount = "\(_textField.text!.count)/24"
+//            _countLabel.text = String(describing: charactersCount)
             return false
         }
         
         let newLenghth = _textField.text!.count + string.count - range.length
         
-        return newLenghth <= 24
+        charactersCount = "\(_textField.text!.count)/24"
+        _countLabel.text = String(describing: charactersCount)
+        
+        return newLenghth < 25
         
     }
     

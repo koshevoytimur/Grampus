@@ -25,13 +25,16 @@ class ProfileTableViewController: UITableViewController {
     
     //Information cell
     @IBOutlet weak var _profileInformationLabel: UILabel!
+    @IBOutlet weak var _infoAddButton: UIButton!
     
     //Skills cell
     @IBOutlet weak var _profileSkillsLabel: UILabel!
+    @IBOutlet weak var _skillsAddButton: UIButton!
     
     let alert = AlertView()
     let menuVC = MenuTableViewController()
-
+    let pieChartViewController = PieChartViewController()
+    
     var fullName: String?
     var email: String?
     var profession: String?
@@ -42,18 +45,36 @@ class ProfileTableViewController: UITableViewController {
     var achievements: String?
     var profilePicture: String?
     
+    //Pie chart
+    var bestLooker = 1
+    var superWorker = 2
+    var extrovert = 3
+    var untidy = 4
+    var deadLiner = 5
+    var introvert = 6
+    
     override func loadView() {
         super.loadView()
         
-        fetchUserInformation()
+        let def = UserDefaults.standard
+        let userId = def.string(forKey: userDefKeys.userId.rawValue)
+        let selectedUserIdProfile = def.string(forKey: userDefKeys.selectedUserIdProfile.rawValue)
+        let profileState = def.bool(forKey: userDefKeys.profileState.rawValue)
+        
+        if profileState {
+            fetchUserInformation(userId: userId!)
+        } else {
+            _infoAddButton.isEnabled = false
+            _skillsAddButton.isEnabled = false
+            fetchUserInformation(userId: selectedUserIdProfile!)
+        }
+        tableView.reloadData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navBarAppearance()
-        //        _profileInformationLabel.numberOfLines = 0
-        //        _profileSkillsLabel.numberOfLines = 0
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 120
         
@@ -66,15 +87,26 @@ class ProfileTableViewController: UITableViewController {
             
             self.view.addGestureRecognizer(revealViewController().panGestureRecognizer())
         }
+        
+        
+        
+        tableView.reloadData()
     }
     
-    func fetchUserInformation() {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        
         let def = UserDefaults.standard
+        def.set(true, forKey: userDefKeys.profileState.rawValue)
+    }
+    
+    func fetchUserInformation(userId: String) {
         
-        let token = def.string(forKey: "token")
-        let userId = def.string(forKey: "userId")
+        let def = UserDefaults.standard
+        let token = def.string(forKey: userDefKeys.token.rawValue)
+        print(token!)
         
-        let API_URL: String = "http://10.11.1.104:8080/api/profiles/\(userId!)"
+        let API_URL: String = "\(dURL.dynamicURL.rawValue)profiles/\(userId)"
         
         let headers: HTTPHeaders = [
             "Content-Type": "application/json; charset=utf-8",
@@ -87,22 +119,22 @@ class ProfileTableViewController: UITableViewController {
             case .success :
                 
                 if let result = responseJSON.result.value {
-                    let JSON = result as! NSDictionary
-                    
-                    let user = JSON["user"] as! NSDictionary
+                    let json = result as! NSDictionary
+                    let profile = json["profile"] as! NSDictionary
+                    let user = profile["user"] as! NSDictionary
                     
                     print("NSDictionary")
-                    print(JSON)
+                    print(json)
                     print("USER")
                     print(user)
                     
                     self.fullName = user["fullName"] as? String
                     self.profession = user["jobTitle"] as? String
                     self.email = user["username"] as? String
-                    self.likes = JSON["likes"] as? Int
-                    self.dislikes = JSON["dislikes"] as? Int
-                    self.information = JSON["information"] as? String
-                    self.skills = JSON["skills"] as? String
+                    self.likes = profile["likes"] as? Int
+                    self.dislikes = profile["dislikes"] as? Int
+                    self.information = profile["information"] as? String
+                    self.skills = profile["skills"] as? String
                     
                     if let unwrappedFullName = self.fullName {
                         self.fullName = unwrappedFullName
@@ -146,6 +178,8 @@ class ProfileTableViewController: UITableViewController {
                         self.skills = "Skills"
                     }
                     
+                    
+                    
                     self.setUpProfile(fullName: self.fullName!, profession: self.profession!, likes: self.likes!, dislikes: self.dislikes!, information: self.information!, skills: self.skills!)
                 }
                 
@@ -159,8 +193,8 @@ class ProfileTableViewController: UITableViewController {
         
         _profileFullNameLabel.text = fullName
         _profileProfessionLabel.text = profession
-        _profileLikeLabel.text = String(describing: likes)
-        _profileDislikeLabel.text = String(describing: dislikes)
+        _profileLikeLabel.text = "Likes: \(String(describing: likes))"
+        _profileDislikeLabel.text = "Disikes: \(String(describing: dislikes))"
         _profileInformationLabel.text = information
         _profileSkillsLabel.text = skills
         self.tableView.reloadData()
@@ -215,8 +249,8 @@ class ProfileTableViewController: UITableViewController {
     func editProfileText( key: String, text: String) {
         
         let def = UserDefaults.standard
-        let token = def.string(forKey: "token")
-        let API_URL: String = "http://10.11.1.169:8080/api/profiles/"
+        let token = def.string(forKey: userDefKeys.token.rawValue)
+        let API_URL: String = "\(dURL.dynamicURL.rawValue)profiles/"
         
         let headers: HTTPHeaders = [
             "Content-Type": "application/json; charset=utf-8",
@@ -269,3 +303,38 @@ class ProfileTableViewController: UITableViewController {
     }
     
 }
+//                    if let unwrappedBestLooker = self.bestLooker {
+//                        self.bestLooker = unwrappedBestLooker
+//                    } else {
+//                        self.bestLooker = 0
+//                    }
+//
+//                    if let unwrappedSuperWorker = self.superWorker {
+//                        self.superWorker = unwrappedSuperWorker
+//                    } else {
+//                        self.superWorker = 0
+//                    }
+//
+//                    if let unwrappedLikes = self.extrovert {
+//                        self.extrovert = unwrappedLikes
+//                    } else {
+//                        self.extrovert = 0
+//                    }
+//
+//                    if let unwrappedLikes = self.untidy {
+//                        self.untidy = unwrappedLikes
+//                    } else {
+//                        self.untidy = 0
+//                    }
+//
+//                    if let unwrappedLikes = self.deadLiner {
+//                        self.deadLiner = unwrappedLikes
+//                    } else {
+//                        self.deadLiner = 0
+//                    }
+//
+//                    if let unwrappedLikes = self.introvert {
+//                        self.introvert = unwrappedLikes
+//                    } else {
+//                        self.introvert = 0
+//                    }

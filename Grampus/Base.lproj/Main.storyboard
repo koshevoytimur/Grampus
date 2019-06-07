@@ -279,6 +279,7 @@
                         <outlet property="_searchBar" destination="hqa-4l-qIu" id="stx-dK-MxY"/>
                         <outlet property="_tableView" destination="39b-zx-hAQ" id="6ei-a3-hIZ"/>
                         <segue destination="JAj-pM-pSU" kind="presentation" identifier="ShowModalView" id="suT-6V-ku3"/>
+                        <segue destination="6Nn-7C-WBp" kind="show" identifier="rating_to_selected_profile" id="na6-d2-zak"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6xC-yI-oQt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -872,6 +873,7 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="_infoAddButton" destination="6rg-ic-hg4" id="6XT-w5-nz5"/>
                         <outlet property="_menuBarButton" destination="aHJ-LZ-UJG" id="caJ-Ci-qL6"/>
                         <outlet property="_navigationBar" destination="nBN-Kp-e9E" id="qIU-Rh-7Wl"/>
                         <outlet property="_profileDislikeLabel" destination="hXi-Gx-18f" id="24u-mx-MQb"/>
@@ -881,6 +883,7 @@
                         <outlet property="_profileLikeLabel" destination="cKb-Pg-uHl" id="JaP-3M-Zhz"/>
                         <outlet property="_profileProfessionLabel" destination="ceC-XE-QGh" id="p5k-w2-Myy"/>
                         <outlet property="_profileSkillsLabel" destination="Zvp-EW-imY" id="KKE-4w-1uD"/>
+                        <outlet property="_skillsAddButton" destination="xeX-uB-XML" id="zMe-fM-zHL"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xG3-r1-1i7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1142,6 +1145,15 @@
                                             </button>
                                         </subviews>
                                     </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vC1-uc-yXN">
+                                        <rect key="frame" x="30" y="242" width="240" height="14"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="14" id="Khh-tI-ogQ"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -1149,11 +1161,15 @@
                                     <constraint firstItem="acZ-Gq-dzz" firstAttribute="centerX" secondItem="i3n-Yb-6Sd" secondAttribute="centerX" id="9Q2-gz-sKg"/>
                                     <constraint firstItem="Ye9-Rj-YJZ" firstAttribute="top" secondItem="ggw-Km-E4a" secondAttribute="bottom" constant="20" id="9ng-3L-6eA"/>
                                     <constraint firstItem="MNX-3a-OK9" firstAttribute="top" secondItem="acZ-Gq-dzz" secondAttribute="bottom" constant="20" id="B3h-lM-cjG"/>
+                                    <constraint firstAttribute="trailing" secondItem="vC1-uc-yXN" secondAttribute="trailing" constant="30" id="C3m-J4-yEU"/>
                                     <constraint firstItem="HH4-40-tV0" firstAttribute="centerX" secondItem="i3n-Yb-6Sd" secondAttribute="centerX" id="GI1-tz-76w"/>
                                     <constraint firstItem="MNX-3a-OK9" firstAttribute="centerX" secondItem="i3n-Yb-6Sd" secondAttribute="centerX" id="HDQ-aj-R9N"/>
                                     <constraint firstItem="HH4-40-tV0" firstAttribute="top" secondItem="MNX-3a-OK9" secondAttribute="bottom" constant="20" id="Mbf-ix-ZzJ"/>
                                     <constraint firstAttribute="width" constant="300" id="O6y-sq-JVQ"/>
+                                    <constraint firstItem="vC1-uc-yXN" firstAttribute="top" secondItem="ggw-Km-E4a" secondAttribute="bottom" constant="2" id="a7O-XR-puI"/>
                                     <constraint firstItem="ggw-Km-E4a" firstAttribute="top" secondItem="HH4-40-tV0" secondAttribute="bottom" constant="20" id="cbj-OM-3h5"/>
+                                    <constraint firstItem="vC1-uc-yXN" firstAttribute="leading" secondItem="i3n-Yb-6Sd" secondAttribute="leading" constant="30" id="hEy-RB-K8A"/>
+                                    <constraint firstItem="vC1-uc-yXN" firstAttribute="centerX" secondItem="i3n-Yb-6Sd" secondAttribute="centerX" id="j0i-ge-rdO"/>
                                     <constraint firstAttribute="height" constant="320" id="mCe-WQ-TGn"/>
                                     <constraint firstItem="Ye9-Rj-YJZ" firstAttribute="centerX" secondItem="i3n-Yb-6Sd" secondAttribute="centerX" id="oBp-pa-wJ4"/>
                                     <constraint firstItem="acZ-Gq-dzz" firstAttribute="top" secondItem="i3n-Yb-6Sd" secondAttribute="top" constant="20" id="oVR-ED-SWQ"/>
@@ -1169,6 +1185,7 @@
                     </view>
                     <connections>
                         <outlet property="_cancelButton" destination="9EL-aD-zSa" id="W4S-2L-5Is"/>
+                        <outlet property="_countLabel" destination="vC1-uc-yXN" id="AZp-kX-s2p"/>
                         <outlet property="_firstButton" destination="acZ-Gq-dzz" id="57P-xU-q6h"/>
                         <outlet property="_okButton" destination="Fzp-Ch-YJD" id="e2q-Eg-sAl"/>
                         <outlet property="_secondButton" destination="MNX-3a-OK9" id="9dk-mf-rcH"/>
@@ -1190,7 +1207,8 @@
         <image name="rating" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0TQ-jf-PD9"/>
+        <segue reference="LUG-hn-vFb"/>
+        <segue reference="na6-d2-zak"/>
         <segue reference="xAE-M7-WWY"/>
     </inferredMetricsTieBreakers>
 </document>

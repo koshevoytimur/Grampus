@@ -19,9 +19,9 @@ class RatingViewController: UIViewController, ModalViewControllerDelegate {
     @IBOutlet weak var _menuBarButton: UIBarButtonItem!
     @IBOutlet weak var _searchBar: UISearchBar!
     @IBOutlet weak var _tableView: UITableView!
-    
-    let names = ["adsad", "fdsfdsfdsf", "Barack Obama"]
-    let API_URL = "http://10.11.1.104:8080/api/profiles/all"
+
+    // MARK: - Properties
+    let API_URL = "\(dURL.dynamicURL.rawValue)profiles/all"
     
     var json = JSON()
     
@@ -53,9 +53,7 @@ class RatingViewController: UIViewController, ModalViewControllerDelegate {
         
         let def = UserDefaults.standard
         
-        let token = def.string(forKey: "token")
-        
-        let API_URL = "http://10.11.1.104:8080/api/profiles/all"
+        let token = def.string(forKey: userDefKeys.token.rawValue)
         
         let headers: HTTPHeaders = [
             "Content-Type": "application/json; charset=utf-8",
@@ -71,14 +69,8 @@ class RatingViewController: UIViewController, ModalViewControllerDelegate {
                     
                     
                     self.json = JSON(result)
-                    
-                    if let id = self.json[0]["id"].int {
-                        print("===============================================")
-                        print(id)
-                    } else {
-                        print("HERE WE GO AGAIN 1")
-                    }
-                    //                     print(json)
+                
+                    print(self.json)
                     self._tableView.reloadData()
                 }
                 
@@ -97,7 +89,7 @@ class RatingViewController: UIViewController, ModalViewControllerDelegate {
     
     func chooseLikeOrDislike( bool: Bool ) {
         let def = UserDefaults.standard
-        def.set(bool, forKey: "like")
+        def.set(bool, forKey: userDefKeys.likeState.rawValue)
         def.synchronize()
     }
     
@@ -156,7 +148,7 @@ class RatingViewController: UIViewController, ModalViewControllerDelegate {
     
     func saveSelectedUserId( selectedUserId: Int ) {
         let def = UserDefaults.standard
-        def.set(selectedUserId, forKey: "selectedUserId")
+        def.set(selectedUserId, forKey: userDefKeys.selectedUserId.rawValue)
         def.synchronize()
     }
     
@@ -165,7 +157,7 @@ class RatingViewController: UIViewController, ModalViewControllerDelegate {
         print("BUTTON ROW ==============")
         print(buttonRow)
         
-        if let id = self.json[buttonRow]["id"].int {
+        if let id = self.json[buttonRow]["profileId"].int {
             print("selectedUserId ==============")
             print(id)
             saveSelectedUserId(selectedUserId: id)
@@ -192,33 +184,52 @@ extension RatingViewController: UITableViewDelegate, UITableViewDataSource {
         
         var userNameToDisplay = ""
         var jobTitleToDisplay = ""
+        var likeDislikeButtonState = true
         
-        if let id = self.json[indexPath.row]["id"].int {
+        if let id = self.json[indexPath.row]["profileId"].int {
             print(id)
         } else {
             print("HERE WE GO AGAIN 1")
         }
         
-        if let userName = self.json[indexPath.row]["user"]["username"].string {
+        if let userName = self.json[indexPath.row]["fullName"].string {
             print(userName)
             userNameToDisplay = userName
         } else {
             print("HERE WE GO AGAIN 2")
         }
         
-        if let jobTitle = self.json[indexPath.row]["user"]["jobTitle"].string {
+        if let jobTitle = self.json[indexPath.row]["jobTitle"].string {
             jobTitleToDisplay = jobTitle
             print(jobTitle)
         } else {
             print("HERE WE GO AGAIN 3")
         }
         
-        if let profilePicture = self.json[indexPath.row]["profilePicture"].string {
+        if let profilePicture = self.json[indexPath.row]["picture"].string {
             print(profilePicture)
         } else {
-            //            print("HERE WE GO AGAIN 4")
+            print("HERE WE GO AGAIN 4")
         }
         
+        if let isAbleToLike = self.json[indexPath.row]["isAbleToLike"].bool {
+            print("IS ABLE TO LIKE -------------------------------")
+            print(isAbleToLike)
+            likeDislikeButtonState = isAbleToLike
+        } else {
+            print("HERE WE GO AGAIN 5")
+        }
+        
+        print("likeDislikeButtonState -------------------------------")
+        print(likeDislikeButtonState)
+        
+        if likeDislikeButtonState {
+            cell._likeButton.isEnabled = true
+            cell._dislikeButton.isEnabled = true
+        } else {
+            cell._likeButton.isEnabled = false
+            cell._dislikeButton.isEnabled = false
+        }
         
         DispatchQueue.main.async {
             cell._nameLabelCell.text = userNameToDisplay
@@ -230,6 +241,21 @@ extension RatingViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
         
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if let id = self.json[indexPath.row]["profileId"].int {
+            print("IDDDDDDDDDDD \(id)")
+            let def = UserDefaults.standard
+            def.set("\(id)", forKey: userDefKeys.selectedUserIdProfile.rawValue)
+            def.set(false, forKey: userDefKeys.profileState.rawValue)
+            def.synchronize()
+            
+            self.performSegue(withIdentifier: segueIdentifier.rating_to_selected_profile.rawValue, sender: self)
+        } else {
+            print("HERE WE GO AGAIN 1")
+        }
     }
     
 }

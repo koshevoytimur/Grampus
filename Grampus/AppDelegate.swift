@@ -19,7 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         let def = UserDefaults.standard
-        let is_authenticated = def.bool(forKey: "isLoggedIn")
+        let is_authenticated = def.bool(forKey: userDefKeys.isLoggedIn.rawValue)
+        def.set(true, forKey: userDefKeys.profileState.rawValue)
         print(is_authenticated)
         if is_authenticated {
             self.window = UIWindow(frame: UIScreen.main.bounds)

@@ -22,7 +22,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     let predicate = EmailValidationPredicate()
     let alert = AlertView()
-    let API_URL: String = "http://10.11.1.104:8080/api/users/login"
+    let API_URL: String = "\(dURL.dynamicURL.rawValue)users/login"
 
     // MARK: - Functions
     override func viewDidLoad() {
@@ -48,19 +48,19 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     // Save authorize state.
     func saveLoggedState() {
         let def = UserDefaults.standard
-        def.set(true, forKey: "isLoggedIn")
+        def.set(true, forKey: userDefKeys.isLoggedIn.rawValue)
         def.synchronize()
     }
     
     func saveUserToken( token: String ) {
         let def = UserDefaults.standard
-        def.set("\(token)", forKey: "token")
+        def.set("\(token)", forKey: userDefKeys.token.rawValue)
         def.synchronize()
     }
     
     func saveUserId( userId: String ) {
         let def = UserDefaults.standard
-        def.set("\(userId)", forKey: "userId")
+        def.set("\(userId)", forKey: userDefKeys.userId.rawValue)
         def.synchronize()
     }
     
@@ -102,7 +102,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                     
                     self.decodeJwt(token: tokenWithOutBearer)
                     self.saveLoggedState()
-                    self.performSegue(withIdentifier: "login_to_profile", sender: self)
+                    self.performSegue(withIdentifier: segueIdentifier.login_to_profile.rawValue, sender: self)
                 }
                 
             case .failure(let error) :

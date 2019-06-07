@@ -43,10 +43,10 @@ class MenuTableViewController: UITableViewController {
         
         let def = UserDefaults.standard
         
-        let token = def.string(forKey: "token")
-        let userId = def.string(forKey: "userId")
+        let token = def.string(forKey: userDefKeys.token.rawValue)
+        let userId = def.string(forKey: userDefKeys.userId.rawValue)
         
-        let API_URL: String = "http://10.11.1.104:8080/api/profiles/\(userId!)"
+        let API_URL: String = "\(dURL.dynamicURL.rawValue)profiles/\(userId!)"
         
         let headers: HTTPHeaders = [
             "Content-Type": "application/json; charset=utf-8",
@@ -59,13 +59,14 @@ class MenuTableViewController: UITableViewController {
             case .success :
                 
                 if let result = responseJSON.result.value {
-                    let JSON = result as! NSDictionary
                     
-                    let user = JSON["user"] as! NSDictionary
+                    let JSON = result as! NSDictionary
+                    let profile = JSON["profile"] as! NSDictionary
+                    let user = profile["user"] as! NSDictionary
                     
                     self.fullName = user["fullName"] as? String
                     self.email = user["username"] as? String
-                    self.profilePicture = JSON["profilePicture"] as? String
+                    self.profilePicture = profile["profilePicture"] as? String
                     
                     if let unwrappedFullName = self.fullName {
                         self.fullName = unwrappedFullName
@@ -87,6 +88,7 @@ class MenuTableViewController: UITableViewController {
                     
                     self._fullName.text = self.fullName!
                     self._emailLabel.text = self.email!
+                    self.tableView.reloadData()
                 }
                 
             case .failure(let error) :
@@ -108,6 +110,10 @@ class MenuTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        if indexPath.row == 1 {
+            let def = UserDefaults.standard
+            def.set(true, forKey: userDefKeys.profileState.rawValue)
+        }
         if indexPath.row == 6 {
             saveLoggedState()
             saveUserToken()
@@ -116,13 +122,13 @@ class MenuTableViewController: UITableViewController {
     
     func saveLoggedState() {
         let def = UserDefaults.standard
-        def.set(false, forKey: "isLoggedIn")
+        def.set(false, forKey: userDefKeys.isLoggedIn.rawValue)
         def.synchronize()
     }
     
     func saveUserToken() {
         let def = UserDefaults.standard
-        def.set("", forKey: "token")
+        def.set("", forKey: userDefKeys.token.rawValue)
         def.synchronize()
     }
     
